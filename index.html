@@ -12,968 +12,3902 @@
         }
         
         body {
-            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #ff9a56 0%, #ffcd6b 50%, #ffd89b 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
         
-        .container {
+        /* 科技感网格背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* 浮动粒子 */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 2%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 3%),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.25) 0%, transparent 2%),
+                radial-gradient(circle at 70% 60%, rgba(255,255,255,0.2) 0%, transparent 3%);
+            pointer-events: none;
+            z-index: 0;
+            animation: particleFloat 8s ease-in-out infinite;
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 2px 10px rgba(0,0,0,0.2), 0 0 20px rgba(255,255,255,0.3); }
+            50% { text-shadow: 0 2px 10px rgba(0,0,0,0.2), 0 0 40px rgba(255,255,255,0.5); }
+        }
+        
+        .header p {
+            font-size: 15px;
+            opacity: 0.95;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        }
+        
+        .main-container {
+            display: flex;
+            gap: 20px;
             max-width: 1400px;
             margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-        
-        header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-        
-        header p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .panel {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-        
-        .panel-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* 可视化区域 */
-        .visualization-area {
-            min-height: 300px;
-        }
-        
-        .array-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 12px;
-            margin: 40px 0 60px 0;
-            min-height: 100px;
             position: relative;
+            z-index: 1;
         }
         
-        .block {
-            width: 70px;
-            height: 70px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            position: relative;
-            transition: all 0.3s ease;
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 40px rgba(255, 140, 0, 0.15),
+                0 0 0 1px rgba(255, 200, 100, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardFloat 6s ease-in-out infinite;
         }
         
-        .block-default {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        
-        .block-pivot {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
-        }
-        
-        .block-found {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .block-swap {
-            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
-            animation: pulse 0.5s ease;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-        
-        .block-done {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        }
-        
-        /* 指针样式 */
-        .pointer-container {
-            position: absolute;
-            top: -40px;
-            width: 70px;
-            text-align: center;
-        }
-        
-        .pointer {
-            font-size: 20px;
-            font-weight: bold;
-            display: inline-block;
-            animation: bounce 1s infinite;
-        }
-        
-        .pointer-i {
-            color: #f5576c;
-        }
-        
-        .pointer-j {
-            color: #11998e;
-        }
-        
-        @keyframes bounce {
+        @keyframes cardFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
         
-        .pointer-arrow {
-            font-size: 16px;
-            display: block;
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 
+                0 20px 60px rgba(255, 140, 0, 0.25),
+                0 0 0 2px rgba(255, 180, 80, 0.5),
+                0 0 30px rgba(255, 200, 100, 0.3);
         }
         
-        .index-label {
+        .card-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            border-bottom: 2px solid rgba(255, 180, 100, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::before {
+            content: '';
             position: absolute;
-            bottom: -25px;
-            font-size: 14px;
-            color: #999;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 3s infinite;
         }
         
-        /* 说明区域 */
-        .step-description {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            min-height: 100px;
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
         
-        .step-description h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 18px;
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
         }
         
-        .step-description p {
-            color: #555;
-            line-height: 1.8;
-            font-size: 15px;
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
         }
         
-        .highlight {
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .highlight-red {
-            color: #f5576c;
-            font-weight: bold;
-        }
-        
-        .highlight-green {
-            color: #11998e;
-            font-weight: bold;
-        }
-        
-        /* 代码区域 */
-        .code-area {
-            font-family: 'Courier New', monospace;
+        .card-badge {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff7b2e 100%);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 15px;
             font-size: 13px;
-            line-height: 1.6;
-            background: #1e1e1e;
-            color: #d4d4d4;
-            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(255, 120, 50, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-badge::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: badgeShine 3s ease-in-out infinite;
+        }
+        
+        @keyframes badgeShine {
+            0%, 100% { transform: rotate(45deg) translateX(-100%); }
+            50% { transform: rotate(45deg) translateX(100%); }
+        }
+        
+        .card-content {
             padding: 20px;
-            overflow-x: auto;
-            max-height: 500px;
         }
         
-        .code-line {
-            padding: 3px 10px;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
+        /* 左侧可视化面板 */
+        .visual-panel {
+            flex: 1;
+            min-width: 0;
         }
         
-        .code-line.active {
-            background: rgba(102, 126, 234, 0.3);
-            border-left-color: #667eea;
-        }
-        
-        .code-line.executed {
-            background: rgba(17, 153, 142, 0.2);
-            border-left-color: #11998e;
-        }
-        
-        .code-keyword {
-            color: #569cd6;
-        }
-        
-        .code-function {
-            color: #dcdcaa;
-        }
-        
-        .code-variable {
-            color: #9cdcfe;
-        }
-        
-        .code-number {
-            color: #b5cea8;
-        }
-        
-        .code-comment {
-            color: #6a9955;
-        }
-        
-        .code-string {
-            color: #ce9178;
-        }
-        
-        /* 变量监控 */
-        .variables-panel {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .var-item {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .var-name {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 5px;
-        }
-        
-        .var-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .var-value.i {
-            color: #f5576c;
-        }
-        
-        .var-value.j {
-            color: #11998e;
-        }
-        
-        .var-value.pivot {
-            color: #667eea;
-        }
-        
-        /* 控制面板 */
-        .control-panel {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        /* 数组显示 */
+        .array-display {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             gap: 15px;
+            margin: 30px 0 15px;
             flex-wrap: wrap;
+            min-height: 220px;
+            padding-top: 40px;
         }
         
-        .control-btn {
-            padding: 12px 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .array-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .pointer-label {
+            position: absolute;
+            top: -30px;
+            font-size: 14px;
             font-weight: bold;
         }
         
-        .btn-prev {
-            background: #6c757d;
-            color: white;
+        .pointer-label.i-label {
+            color: #e74c3c;
         }
         
-        .btn-prev:hover:not(:disabled) {
-            background: #5a6268;
+        .pointer-label.j-label {
+            color: #27ae60;
         }
         
-        .btn-next {
-            background: #667eea;
-            color: white;
-        }
-        
-        .btn-next:hover:not(:disabled) {
-            background: #5568d3;
-        }
-        
-        .btn-auto {
-            background: #11998e;
-            color: white;
-        }
-        
-        .btn-auto:hover {
-            background: #0d7d6f;
-        }
-        
-        .btn-reset {
-            background: #f5576c;
-            color: white;
-        }
-        
-        .btn-reset:hover {
-            background: #d94a5e;
-        }
-        
-        .control-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        /* 步骤指示器 */
-        .step-indicator {
+        .array-bar {
+            width: 45px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
+            justify-content: flex-end;
+            background: linear-gradient(180deg, #ffb74d 0%, #ff9800 100%);
+            border-radius: 10px 10px 0 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .array-bar:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+        }
+        
+        .array-value {
             font-size: 16px;
-            color: #666;
+            font-weight: bold;
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
         
-        .step-progress {
-            display: flex;
-            gap: 5px;
+        .array-index {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #8d6e63;
+            font-weight: 500;
         }
         
-        .step-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ddd;
-            transition: all 0.3s ease;
+        .array-index.temp-index {
+            color: #9c27b0;
+            font-weight: bold;
         }
         
-        .step-dot.active {
-            background: #667eea;
+        .temp-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #9c27b0;
+            font-weight: bold;
+            white-space: nowrap;
         }
         
-        .step-dot.done {
-            background: #11998e;
+        .array-bar.temp-storage {
+            background: linear-gradient(180deg, #ce93d8 0%, #9c27b0 100%);
+            border: 2px dashed #7b1fa2;
+            opacity: 0.9;
+        }
+        
+        .array-bar.pivot {
+            background: linear-gradient(180deg, #e91e63 0%, #c2185b 100%);
+            transform: scale(1.08);
+            box-shadow: 0 6px 25px rgba(233, 30, 99, 0.5);
+            animation: pivotGlow 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pivotGlow {
+            0%, 100% { box-shadow: 0 6px 25px rgba(233, 30, 99, 0.5); }
+            50% { box-shadow: 0 6px 35px rgba(233, 30, 99, 0.7), 0 0 20px rgba(233, 30, 99, 0.4); }
+        }
+        
+        .array-bar.comparing {
+            background: linear-gradient(180deg, #42a5f5 0%, #1e88e5 100%);
+            animation: comparePulse 0.5s ease-in-out;
+        }
+        
+        @keyframes comparePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .array-bar.swapping {
+            background: linear-gradient(180deg, #66bb6a 0%, #43a047 100%);
+            animation: swapBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes swapBounce {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.15) rotate(5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        .array-bar.sorted {
+            background: linear-gradient(180deg, #26a69a 0%, #00897b 100%);
+            box-shadow: 0 4px 20px rgba(0, 137, 123, 0.5);
+        }
+        
+        .array-bar.low-pointer {
+            box-shadow: 0 0 0 3px #ff5722, 0 0 15px rgba(255, 87, 34, 0.5);
+        }
+        
+        .array-bar.high-pointer {
+            box-shadow: 0 0 0 3px #4caf50, 0 0 15px rgba(76, 175, 80, 0.5);
+        }
+        
+        .pointer-label.both-pointer {
+            background: linear-gradient(135deg, #ff5722, #4caf50);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .array-bar.empty-slot {
+            background: repeating-linear-gradient(
+                45deg,
+                #f5f5f5,
+                #f5f5f5 5px,
+                #e0e0e0 5px,
+                #e0e0e0 10px
+            );
+            border: 2px dashed #bdbdbd;
+            box-shadow: none;
         }
         
         /* 图例 */
         .legend {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
+            gap: 15px;
+            margin: 15px 0;
             flex-wrap: wrap;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-size: 13px;
             color: #666;
         }
         
-        .legend-color {
-            width: 20px;
-            height: 20px;
+        .legend-dot {
+            width: 16px;
+            height: 16px;
             border-radius: 4px;
         }
         
-        /* 速度控制 */
-        .speed-control {
+        .legend-dot.temp { background: linear-gradient(135deg, #9c27b0, #7b1fa2); }
+        .legend-dot.pivot { background: linear-gradient(135deg, #e91e63, #c2185b); }
+        .legend-dot.comparing { background: linear-gradient(135deg, #42a5f5, #1e88e5); }
+        .legend-dot.swapping { background: linear-gradient(135deg, #66bb6a, #43a047); }
+        .legend-dot.sorted { background: linear-gradient(135deg, #26a69a, #00897b); }
+        
+        /* 状态信息 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 180, 100, 0.3);
+        }
+        
+        .info-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.2);
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #8d6e63;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e65100;
+        }
+        
+        .info-value.highlight {
+            color: #e91e63;
+            text-shadow: 0 0 10px rgba(233, 30, 99, 0.3);
+        }
+        
+        /* 步骤说明 */
+        .step-description {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border-left: 4px solid #ff9800;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-description::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: stepShimmer 2s infinite;
+        }
+        
+        @keyframes stepShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .step-description .title {
+            font-size: 14px;
+            color: #e65100;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-description .content {
+            font-size: 14px;
+            color: #5d4037;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 右侧代码面板 */
+        .code-panel {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .code-container {
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .code-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .code-container::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+        
+        .code-container::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+        
+        .code-content {
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #d4d4d4;
+            white-space: pre;
+        }
+        
+        .code-line {
+            display: block;
+            padding: 2px 0;
+            transition: background 0.2s;
+        }
+        
+        .code-line.active {
+            background: rgba(255, 152, 0, 0.25);
+            border-left: 3px solid #ff9800;
+            padding-left: 10px;
+            margin-left: -10px;
+        }
+        
+        .keyword { color: #f9844a; }
+        .function { color: #f9c74f; }
+        .string { color: #90be6d; }
+        .comment { color: #8d6e63; }
+        .number { color: #f8961e; }
+        .variable { color: #43aa8b; }
+        
+        /* 底部控制栏 */
+        .control-bar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 18px 28px;
+            margin-top: 20px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 
+                0 10px 40px rgba(255, 140, 0, 0.2),
+                0 0 0 1px rgba(255, 180, 100, 0.3);
+            flex-wrap: wrap;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 12px 26px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .btn:hover:not(:disabled)::before {
+            width: 200%;
+            height: 200%;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-prev {
+            background: linear-gradient(135deg, #ffcc80 0%, #ffb74d 100%);
+            color: #5d4037;
+            box-shadow: 0 4px 15px rgba(255, 183, 77, 0.4);
+        }
+        
+        .btn-prev:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 183, 77, 0.5);
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+        
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(255, 152, 0, 0.5);
+        }
+        
+        .btn-auto {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .btn-auto:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+        
+        .btn-auto.playing {
+            background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+            animation: playingPulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes playingPulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(229, 57, 53, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(229, 57, 53, 0.6); }
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #ec407a 0%, #d81b60 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.4);
+        }
+        
+        .btn-reset:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(216, 27, 96, 0.5);
+        }
+        
+        .control-group {
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .speed-label {
+        .control-label {
             font-size: 14px;
             color: #666;
         }
         
         .speed-slider {
-            width: 100px;
+            width: 120px;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, #ffe0b2 0%, #ffcc80 100%);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(255, 152, 0, 0.4);
+            transition: transform 0.2s ease;
+        }
+        
+        .speed-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        
+        .progress-dots {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 180, 100, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-dot.active {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+        
+        .progress-dot.completed {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+        }
+        
+        /* 输入框 */
+        .array-input-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 18px 24px;
+            margin-bottom: 20px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .array-input-section label {
+            font-size: 14px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+        
+        .array-input-section input {
+            padding: 10px 18px;
+            border: 2px solid rgba(255, 180, 100, 0.5);
+            border-radius: 12px;
+            font-size: 14px;
+            width: 300px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .array-input-section input:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .btn-set {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+        
+        .btn-set:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.5);
+        }
+        
+        /* 算法优势对比模块 */
+        .advantage-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 28px;
+            margin-top: 20px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 
+                0 10px 40px rgba(255, 140, 0, 0.2),
+                0 0 0 1px rgba(255, 180, 100, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .advantage-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #e65100;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .advantage-title::before {
+            content: '📊';
+            font-size: 26px;
+        }
+        
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .advantage-card {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #ff9800;
+            transition: all 0.3s ease;
+        }
+        
+        .advantage-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.2);
+        }
+        
+        .advantage-card h3 {
+            font-size: 16px;
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+        
+        .advantage-card p {
+            font-size: 14px;
+            color: #5d4037;
+            line-height: 1.6;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        .comparison-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255, 180, 100, 0.2);
+            font-size: 14px;
+            color: #5d4037;
+            transition: all 0.3s ease;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(255, 248, 225, 0.8);
+        }
+        
+        .comparison-table .highlight-row {
+            background: rgba(255, 152, 0, 0.15);
+            font-weight: 600;
+        }
+        
+        .comparison-table .highlight-row:hover {
+            background: rgba(255, 152, 0, 0.25);
+        }
+        
+        .star-rating {
+            color: #f39c12;
+            letter-spacing: 2px;
+        }
+        
+        /* AI辅助编程模块样式 */
+        .ai-code-section {
+            max-width: 1400px;
+            margin: 40px auto 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,250,245,0.95) 100%);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 
+                0 15px 50px rgba(255, 120, 50, 0.15),
+                0 0 0 1px rgba(255, 180, 100, 0.3);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .ai-code-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #ff6b6b, #feca57);
+            background-size: 200% 100%;
+            animation: gradientFlow 3s ease infinite;
+        }
+        
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .ai-section-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .ai-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .ai-icon {
+            font-size: 32px;
+            animation: robotBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes robotBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-5px) rotate(5deg); }
+        }
+        
+        .ai-title h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .ai-subtitle {
+            color: #888;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .ai-main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .ai-chat-panel, .ai-code-panel {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        
+        .ai-chat-header, .ai-code-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            gap: 10px;
+        }
+        
+        .chat-icon, .code-icon {
+            font-size: 20px;
+        }
+        
+        .chat-step {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        
+        .ai-status {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .ai-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fff;
+            animation: statusPulse 1.5s ease-in-out infinite;
+        }
+        
+        .ai-status.writing::before {
+            background: #4cd137;
+        }
+        
+        .ai-status.completed::before {
+            background: #feca57;
+            animation: none;
+        }
+        
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        .ai-chat-content {
+            padding: 20px;
+            min-height: 350px;
+        }
+        
+        .ai-thought {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .thought-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .thought-title::before {
+            content: '💭';
+        }
+        
+        .thought-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .thought-step {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .thought-step h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .thought-step ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .thought-step li {
+            margin: 8px 0;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .thought-highlight {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border-left: 3px solid #f39c12;
+            font-size: 14px;
+            color: #856404;
+        }
+        
+        .chat-message {
+            display: flex;
+            gap: 12px;
+            animation: messageIn 0.3s ease;
+        }
+        
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+        
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .chat-message.ai .chat-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .chat-message.user .chat-avatar {
+            background: linear-gradient(135deg, #ff9a56, #ff7b2e);
+        }
+        
+        .chat-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .chat-message.ai .chat-bubble {
+            background: #f0f2ff;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-message.user .chat-bubble {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-placeholder {
+            text-align: center;
+            color: #aaa;
+            padding: 60px 20px;
+        }
+        
+        .chat-placeholder p:first-child {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .chat-hint {
+            font-size: 13px;
+            color: #ccc;
+        }
+        
+        .ai-chat-controls {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .ai-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .ai-btn-prev {
+            background: #e9ecef;
+            color: #666;
+        }
+        
+        .ai-btn-prev:hover:not(:disabled) {
+            background: #dee2e6;
+        }
+        
+        .ai-btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .ai-btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .ai-btn-reset {
+            background: #ff6b6b;
+            color: white;
+            flex: 0.5;
+        }
+        
+        .ai-btn-reset:hover {
+            background: #ee5a52;
+        }
+        
+        .ai-code-content {
+            padding: 20px;
+            min-height: 350px;
+        }
+        
+        .ai-code-display {
+            background: #1e1e3f;
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 14px;
+            min-height: 310px;
+            overflow-x: auto;
+        }
+        
+        .point-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 3px solid #667eea;
+            opacity: 0;
+            animation: pointIn 0.4s ease forwards;
+        }
+        
+        @keyframes pointIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .point-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .point-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .point-content {
+            flex: 1;
+        }
+        
+        .point-title {
+            color: #8be9fd;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+        
+        .point-text {
+            color: #f8f8f2;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .ai-code-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 280px;
+            color: #888;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .typing-indicator span {
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typingDot 1.4s ease-in-out infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typingDot {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+        
+        .code-line {
+            opacity: 0;
+            animation: lineAppear 0.4s ease forwards;
+            white-space: pre;
+        }
+        
+        @keyframes lineAppear {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .code-line .keyword { color: #ff79c6; font-weight: bold; }
+        .code-line .function { color: #50fa7b; font-weight: bold; }
+        .code-line .comment { color: #6272a4; font-style: italic; }
+        .code-line .number { color: #f1fa8c; font-weight: bold; }
+        .code-line .type { color: #8be9fd; font-weight: bold; }
+        .code-line .string { color: #f1fa8c; }
+        .code-line .operator { color: #ff79c6; }
+        .code-line .bracket { color: #f8f8f2; }
+        
+        .ai-progress-bar {
+            height: 4px;
+            background: #f0f0f0;
+        }
+        
+        .ai-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+            border-radius: 2px;
+        }
+        
+        /* 教学意义提示框 */
+        .teaching-tip {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4edfc 100%);
+            border-radius: 12px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .teaching-tip h4 {
+            color: #2980b9;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .teaching-tip p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+        
+        .teaching-tip .key-point {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-weight: 500;
+        }
+        
+        /* 下节课预告和课后作业模块 */
+        .next-lesson-section {
+            max-width: 1400px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .lesson-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,250,245,0.95) 100%);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 
+                0 10px 40px rgba(255, 120, 50, 0.12),
+                0 0 0 1px rgba(255, 180, 100, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        
+        .lesson-card.preview::before {
+            background: linear-gradient(90deg, #00b894, #00cec9);
+        }
+        
+        .lesson-card.homework::before {
+            background: linear-gradient(90deg, #fd79a8, #e84393);
+        }
+        
+        .lesson-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .lesson-card-icon {
+            font-size: 28px;
+        }
+        
+        .lesson-card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .lesson-card-content {
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .lesson-card-content h4 {
+            color: #667eea;
+            margin: 15px 0 10px;
+            font-size: 15px;
+        }
+        
+        .lesson-card-content ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .lesson-card-content li {
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .lesson-card-content li::marker {
+            color: #ff9a56;
+        }
+        
+        .homework-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 12px 0;
+            padding: 12px 15px;
+            background: rgba(255, 154, 86, 0.08);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .homework-item:hover {
+            background: rgba(255, 154, 86, 0.15);
+            transform: translateX(5px);
+        }
+        
+        .homework-num {
+            background: linear-gradient(135deg, #ff9a56, #ff7b2e);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .homework-text {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .homework-text strong {
+            color: #333;
         }
         
         /* 响应式 */
-        @media (max-width: 1024px) {
-            .main-content {
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .advantage-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .ai-main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .next-lesson-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* ========== 随堂测验模块 ========== */
+        .quiz-section {
+            max-width: 1400px;
+            margin: 30px auto;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,250,245,0.95) 100%);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 
+                0 15px 50px rgba(255, 120, 50, 0.15),
+                0 0 0 1px rgba(255, 180, 100, 0.3);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .quiz-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f093fb, #f5576c, #ffd89b, #f5af19);
+            background-size: 200% 100%;
+            animation: gradientFlow 3s ease infinite;
+        }
+        
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .quiz-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .quiz-icon {
+            font-size: 32px;
+            animation: targetBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes targetBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-3px) scale(1.05); }
+            75% { transform: translateY(-3px) scale(1.05); }
+        }
+        
+        .quiz-title h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .quiz-subtitle {
+            color: #888;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .quiz-progress-container {
+            margin-bottom: 25px;
+        }
+        
+        .quiz-progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-progress-text {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .quiz-score-display {
+            font-size: 16px;
+            color: #f5576c;
+            font-weight: 600;
+        }
+        
+        .quiz-progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            transition: width 0.4s ease;
+            border-radius: 4px;
+        }
+        
+        .quiz-question-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            min-height: 300px;
+        }
+        
+        .quiz-question-card {
+            animation: fadeInUp 0.4s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .question-text {
+            font-size: 17px;
+            color: #333;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-option:hover:not(.disabled) {
+            background: #fff0f5;
+            border-color: #f093fb;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.selected {
+            background: #fff0f5;
+            border-color: #f5576c;
+        }
+        
+        .quiz-option.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            animation: correctPulse 0.5s ease;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .quiz-option.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+            animation: incorrectShake 0.5s ease;
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .quiz-option.disabled {
+            cursor: default;
+            pointer-events: none;
+        }
+        
+        .quiz-option.highlight-correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        
+        .option-letter {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option.correct .option-letter {
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+        }
+        
+        .quiz-option.incorrect .option-letter {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+        
+        .quiz-option.highlight-correct .option-letter {
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+        }
+        
+        .option-text {
+            flex: 1;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .quiz-option.correct .option-text {
+            color: #2e7d32;
+            font-weight: 500;
+        }
+        
+        .quiz-option.incorrect .option-text {
+            color: #c62828;
+        }
+        
+        .option-result {
+            font-size: 20px;
+            margin-left: auto;
+        }
+        
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            border-radius: 12px;
+            border-left: 4px solid #f5af19;
+            animation: fadeInUp 0.4s ease;
+        }
+        
+        .explanation-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #e65100;
+            margin-bottom: 8px;
+        }
+        
+        .explanation-text {
+            font-size: 14px;
+            color: #5d4037;
+            line-height: 1.7;
+        }
+        
+        .quiz-result {
+            text-align: center;
+            padding: 40px 20px;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        .result-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .result-score {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .result-score.perfect {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .result-score.good {
+            color: #f5af19;
+        }
+        
+        .result-score.pass {
+            color: #ff9800;
+        }
+        
+        .result-score.fail {
+            color: #f44336;
+        }
+        
+        .result-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .quiz-result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .quiz-btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quiz-btn-primary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        .quiz-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(245, 87, 108, 0.5);
+        }
+        
+        .quiz-btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .quiz-btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .quiz-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+            color: #aaa;
+        }
+        
+        .quiz-placeholder-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .quiz-placeholder p {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .quiz-placeholder span {
+            font-size: 13px;
+            color: #ccc;
+        }
+        
+        /* 解题思路区域 */
+        .quiz-hint {
+            margin-top: 15px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #e3f2fd, #e1f5fe);
+            border-radius: 12px;
+            border-left: 4px solid #2196f3;
+            animation: fadeInUp 0.4s ease;
+        }
+        
+        .quiz-hint.default-open {
+            background: linear-gradient(135deg, #fff8e1, #fffde7);
+            border-left-color: #f5af19;
+        }
+        
+        .hint-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .hint-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1565c0;
+        }
+        
+        .quiz-hint.default-open .hint-title {
+            color: #e65100;
+        }
+        
+        .hint-toggle {
+            font-size: 12px;
+            color: #888;
+            transition: transform 0.3s ease;
+        }
+        
+        .hint-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+        
+        .hint-content {
+            font-size: 14px;
+            color: #455a64;
+            line-height: 1.8;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+        }
+        
+        .hint-content.hidden {
+            display: none;
+        }
+        
+        .hint-step {
+            margin: 8px 0;
+            padding-left: 10px;
+            position: relative;
+        }
+        
+        .hint-step::before {
+            content: '→';
+            position: absolute;
+            left: -5px;
+            color: #ff9800;
+        }
+        
+        .hint-highlight {
+            background: rgba(255, 193, 7, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        /* 答题后的导航按钮 */
+        .quiz-nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .quiz-nav-btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quiz-nav-btn-next {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .quiz-nav-btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .quiz-nav-btn-result {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        .quiz-nav-btn-result:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5);
+        }
+        
+        /* ========== AI观察功能样式 ========== */
+        .ai-observe-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-radius: 12px;
+            border: 2px dashed #9ca3af;
+            position: relative;
+        }
+        
+        .ai-observe-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .ai-observe-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .ai-mute-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            min-width: 48px;
+            height: 48px;
+        }
+        
+        .ai-mute-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+        }
+        
+        .ai-mute-btn.muted {
+            opacity: 0.6;
+        }
+        
+        .ai-observe-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .ai-observe-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: linear-gradient(135deg, #9ca3af, #6b7280);
+        }
+        
+        .ai-observe-btn.reset-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+        
+        .ai-observe-btn.reset-btn:hover:not(:disabled) {
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+        }
+        
+        .ai-chat-bubbles {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .ai-chat-bubbles::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .ai-chat-bubbles::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 3px;
+        }
+        
+        .ai-chat-bubbles::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 3px;
+        }
+        
+        .chat-message.teacher .chat-avatar {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        
+        .chat-message.teacher .chat-bubble {
+            background: #fff7ed;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            border: 2px solid #f59e0b;
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 14px;
+            background: #667eea;
+            margin-left: 2px;
+            animation: blink 0.7s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🚀 快速排序交互式教学系统</h1>
-            <p>一步步演示快速排序的完整过程 | 实时显示指针位置与代码执行</p>
-        </header>
-        
-        <div class="main-content">
-            <!-- 左侧：可视化 -->
-            <div class="panel">
-                <div class="panel-title">
-                    <span>📊 可视化演示</span>
-                    <span id="stepCounter">步骤 0 / 22</span>
-                </div>
-                
-                <div class="visualization-area">
-                    <div class="array-container" id="arrayContainer">
-                        <!-- 动态生成 -->
-                    </div>
-                    
-                    <div class="legend">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-                            <span>基准 pivot</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
-                            <span>当前查找元素</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);"></div>
-                            <span>交换元素</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);"></div>
-                            <span>已归位</span>
-                        </div>
-                    </div>
-                    
-                    <div class="variables-panel">
-                        <div class="var-item">
-                            <div class="var-name">基准 pivot</div>
-                            <div class="var-value pivot" id="varPivot">-</div>
-                        </div>
-                        <div class="var-item">
-                            <div class="var-name">左指针 i</div>
-                            <div class="var-value i" id="varI">-</div>
-                        </div>
-                        <div class="var-item">
-                            <div class="var-name">右指针 j</div>
-                            <div class="var-value j" id="varJ">-</div>
-                        </div>
-                        <div class="var-item">
-                            <div class="var-name">数组状态</div>
-                            <div class="var-value" id="varArray">-</div>
-                        </div>
-                    </div>
-                    
-                    <div class="step-description">
-                        <h3 id="stepTitle">准备开始</h3>
-                        <p id="stepText">点击"下一步"开始演示快速排序算法。初始数组为 [4, 7, 6, 3, 1, 2, 5]，我们将一步步演示排序过程。</p>
-                    </div>
-                </div>
+    <div class="header">
+        <h1>⚡ 快速排序交互式教学系统</h1>
+        <p>一步步演示快速排序的完整过程 | 实时显示指针位置与代码执行</p>
+    </div>
+    
+    <div class="array-input-section">
+        <label>输入数组（逗号分隔）：</label>
+        <input type="text" id="arrayInput" value="49,38,65,97,76,13,27,49" placeholder="例如: 49,38,65,97,76,13,27,49">
+        <button class="btn-set" onclick="setCustomArray()">设置</button>
+    </div>
+    
+    <div class="main-container">
+        <!-- 左侧可视化面板 -->
+        <div class="card visual-panel">
+            <div class="card-header">
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M9 3v18"/>
+                </svg>
+                <span class="card-title">可视化演示</span>
+                <span class="card-badge" id="stepBadge">步骤 0 / 0</span>
             </div>
-            
-            <!-- 右侧：代码 -->
-            <div class="panel">
-                <div class="panel-title">
-                    <span>💻 核心代码（正确版）</span>
-                    <span style="font-size: 14px; color: #999;">Python</span>
+            <div class="card-content">
+                <div class="array-display" id="arrayDisplay"></div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot temp"></div>
+                        <span>暂存</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot pivot"></div>
+                        <span>枢轴(pivot)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot comparing"></div>
+                        <span>比较中</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot swapping"></div>
+                        <span>交换中</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot sorted"></div>
+                        <span>已归位</span>
+                    </div>
                 </div>
                 
-                <div class="code-area" id="codeArea">
-                    <div class="code-line" data-line="1"><span class="code-keyword">def</span> <span class="code-function">partition</span>(arr, low, high):</div>
-                    <div class="code-line" data-line="2">    pivot = arr[low]  <span class="code-comment"># 选第一个元素做基准</span></div>
-                    <div class="code-line" data-line="3">    i = low + <span class="code-number">1</span>  <span class="code-comment"># 从基准的下一个开始</span></div>
-                    <div class="code-line" data-line="4">    j = high</div>
-                    <div class="code-line" data-line="5">    </div>
-                    <div class="code-line" data-line="6">    <span class="code-keyword">while</span> i <= j:</div>
-                    <div class="code-line" data-line="7">        <span class="code-comment"># i从左往右找比pivot大的</span></div>
-                    <div class="code-line" data-line="8">        <span class="code-keyword">while</span> i <= j <span class="code-keyword">and</span> arr[i] <= pivot:</div>
-                    <div class="code-line" data-line="9">            i += <span class="code-number">1</span></div>
-                    <div class="code-line" data-line="10">        </div>
-                    <div class="code-line" data-line="11">        <span class="code-comment"># j从右往左找比pivot小的</span></div>
-                    <div class="code-line" data-line="12">        <span class="code-keyword">while</span> i <= j <span class="code-keyword">and</span> arr[j] >= pivot:</div>
-                    <div class="code-line" data-line="13">            j -= <span class="code-number">1</span></div>
-                    <div class="code-line" data-line="14">        </div>
-                    <div class="code-line" data-line="15">        <span class="code-keyword">if</span> i < j:</div>
-                    <div class="code-line" data-line="16">            arr[i], arr[j] = arr[j], arr[i]  <span class="code-comment"># 交换</span></div>
-                    <div class="code-line" data-line="17">    </div>
-                    <div class="code-line" data-line="18">    <span class="code-comment"># 基准归位：把pivot放到j的位置</span></div>
-                    <div class="code-line" data-line="19">    arr[low], arr[j] = arr[j], arr[low]</div>
-                    <div class="code-line" data-line="20">    <span class="code-keyword">return</span> j</div>
-                    <div class="code-line" data-line="21"></div>
-                    <div class="code-line" data-line="22"><span class="code-keyword">def</span> <span class="code-function">quickSort</span>(arr, low, high):</div>
-                    <div class="code-line" data-line="23">    <span class="code-keyword">if</span> low < high:</div>
-                    <div class="code-line" data-line="24">        pi = partition(arr, low, high)</div>
-                    <div class="code-line" data-line="25">        quickSort(arr, low, pi - <span class="code-number">1</span>)</div>
-                    <div class="code-line" data-line="26">        quickSort(arr, pi + <span class="code-number">1</span>, high)</div>
+                <div class="info-grid">
+                    <div class="info-box">
+                        <div class="info-label">枢轴(pivot)</div>
+                        <div class="info-value highlight" id="pivotValue">-</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-label">左指针(i)</div>
+                        <div class="info-value" id="lowValue">-</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-label">右指针(j)</div>
+                        <div class="info-value" id="highValue">-</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-label">数组状态（r[0]暂存）</div>
+                        <div class="info-value" id="arrayState" style="font-size: 12px;">-</div>
+                    </div>
+                </div>
+                
+                <div class="step-description">
+                    <div class="title" id="stepTitle">初始状态</div>
+                    <div class="content" id="stepContent">点击"开始排序"按钮开始演示快速排序过程</div>
                 </div>
             </div>
         </div>
         
-        <!-- 控制面板 -->
-        <div class="control-panel">
-            <button class="control-btn btn-prev" id="btnPrev" onclick="prevStep()">⬅ 上一步</button>
-            <button class="control-btn btn-next" id="btnNext" onclick="nextStep()">下一步 ➡</button>
-            <button class="control-btn btn-auto" id="btnAuto" onclick="toggleAuto()">▶ 自动播放</button>
-            <button class="control-btn btn-reset" onclick="reset()">🔄 重置</button>
-            
-            <div class="speed-control">
-                <span class="speed-label">速度:</span>
-                <input type="range" class="speed-slider" id="speedSlider" min="500" max="3000" value="1500">
+        <!-- 右侧代码面板 -->
+        <div class="card code-panel">
+            <div class="card-header">
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"/>
+                    <polyline points="8 6 2 12 8 18"/>
+                </svg>
+                <span class="card-title">核心代码（教材标准版）</span>
+                <span class="card-badge">C语言</span>
+            </div>
+            <div class="card-content">
+                <div class="code-container">
+                    <div class="code-content" id="codeContent">
+<span class="code-line" id="code-1"><span class="comment">// Partition函数（一趟排序，返回枢轴位置）</span></span>
+<span class="code-line" id="code-2"><span class="keyword">int</span> <span class="function">Partition</span>(SqList &L, <span class="keyword">int</span> low, <span class="keyword">int</span> high) {</span>
+<span class="code-line" id="code-3">    L.r[<span class="number">0</span>] = L.r[low];  <span class="comment">// 用子表的第一个记录作为枢轴记录</span></span>
+<span class="code-line" id="code-4">    pivotkey = L.r[low].key;  <span class="comment">// 枢轴关键字</span></span>
+<span class="code-line" id="code-5"></span>
+<span class="code-line" id="code-6">    <span class="keyword">while</span> (low &lt; high) {  <span class="comment">// 从表的两端交替地向中间查找</span></span>
+<span class="code-line" id="code-7">        <span class="comment">// 从右向左找小于pivotkey的元素</span></span>
+<span class="code-line" id="code-8">        <span class="keyword">while</span> (low &lt; high && L.r[high].key &gt;= pivotkey)</span>
+<span class="code-line" id="code-9">            --high;</span>
+<span class="code-line" id="code-10">        L.r[low] = L.r[high];  <span class="comment">// 将比枢轴小的移到低端</span></span>
+<span class="code-line" id="code-11"></span>
+<span class="code-line" id="code-12">        <span class="comment">// 从左向右找大于pivotkey的元素</span></span>
+<span class="code-line" id="code-13">        <span class="keyword">while</span> (low &lt; high && L.r[low].key &lt;= pivotkey)</span>
+<span class="code-line" id="code-14">            ++low;</span>
+<span class="code-line" id="code-15">        L.r[high] = L.r[low];  <span class="comment">// 将比枢轴大的移到高端</span></span>
+<span class="code-line" id="code-16">    }</span>
+<span class="code-line" id="code-17">    L.r[low] = L.r[<span class="number">0</span>];  <span class="comment">// 枢轴记录到位</span></span>
+<span class="code-line" id="code-18">    <span class="keyword">return</span> low;  <span class="comment">// 返回枢轴位置</span></span>
+<span class="code-line" id="code-19">}</span>
+<span class="code-line" id="code-20"></span>
+<span class="code-line" id="code-21"><span class="comment">// QuickSort函数（递归实现快速排序）</span></span>
+<span class="code-line" id="code-22"><span class="keyword">void</span> <span class="function">QuickSort</span>(SqList &L, <span class="keyword">int</span> low, <span class="keyword">int</span> high) {</span>
+<span class="code-line" id="code-23">    <span class="keyword">if</span> (low &lt; high) {</span>
+<span class="code-line" id="code-24">        pivotloc = Partition(L, low, high);</span>
+<span class="code-line" id="code-25">        QuickSort(L, low, pivotloc - <span class="number">1</span>);</span>
+<span class="code-line" id="code-26">        QuickSort(L, pivotloc + <span class="number">1</span>, high);</span>
+<span class="code-line" id="code-27">    }</span>
+<span class="code-line" id="code-28">}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部控制栏 -->
+    <div class="control-bar">
+        <div class="btn-group">
+            <button class="btn btn-prev" id="btnPrev" onclick="prevStep()" disabled>← 上一步</button>
+            <button class="btn btn-next" id="btnNext" onclick="nextStep()" disabled>下一步 →</button>
+            <button class="btn btn-auto" id="btnAuto" onclick="toggleAutoPlay()" disabled>▶ 自动播放</button>
+            <button class="btn btn-reset" id="btnReset" onclick="reset()">重置</button>
+        </div>
+        
+        <div class="control-group">
+            <span class="control-label">速度:</span>
+            <input type="range" class="speed-slider" id="speedSlider" min="100" max="1500" value="600">
+        </div>
+        
+        <div class="control-group">
+            <span class="control-label">进度:</span>
+            <div class="progress-dots" id="progressDots"></div>
+        </div>
+    </div>
+    
+    <!-- 算法优势对比模块 -->
+    <div class="advantage-section">
+        <div class="advantage-title">快速排序相较于其他排序的优势</div>
+        
+        <div class="advantage-grid">
+            <div class="advantage-card">
+                <h3>⏱️ 时间效率高</h3>
+                <p>平均 O(n log n)，常数因子小，实际运行速度快。比 O(n²) 的冒泡、选择、插入排序快很多。</p>
+            </div>
+            <div class="advantage-card">
+                <h3>💾 原地排序</h3>
+                <p>空间复杂度 O(log n)，只需递归栈空间。归并排序需要 O(n) 额外空间。</p>
+            </div>
+            <div class="advantage-card">
+                <h3>🔧 缓存友好</h3>
+                <p>顺序访问模式，局部性好。堆排序虽然也是 O(n log n)，但缓存命中率低，实际更慢。</p>
+            </div>
+            <div class="advantage-card">
+                <h3>👑 实战之王</h3>
+                <p>C/C++ 的 qsort、Java 的 Arrays.sort（基础类型）底层都是快排变种，工程上广泛使用。</p>
+            </div>
+        </div>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>排序算法</th>
+                    <th>时间复杂度</th>
+                    <th>空间复杂度</th>
+                    <th>稳定性</th>
+                    <th>实际速度</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-row">
+                    <td>快速排序</td>
+                    <td>O(n log n)</td>
+                    <td>O(log n)</td>
+                    <td>不稳定</td>
+                    <td class="star-rating">⭐⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>归并排序</td>
+                    <td>O(n log n)</td>
+                    <td>O(n)</td>
+                    <td>稳定</td>
+                    <td class="star-rating">⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>堆排序</td>
+                    <td>O(n log n)</td>
+                    <td>O(1)</td>
+                    <td>不稳定</td>
+                    <td class="star-rating">⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>冒泡/选择/插入</td>
+                    <td>O(n²)</td>
+                    <td>O(1)</td>
+                    <td>稳定</td>
+                    <td class="star-rating">⭐</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="margin-top: 15px; font-size: 13px; color: #888;">
+            <strong>缺点：</strong>最坏情况 O(n²)（数组已有序时），但随机选枢轴或三数取中可以规避。
+        </p>
+    </div>
+    
+    <!-- AI课程总结模块 -->
+    <div class="ai-code-section">
+        <div class="ai-section-header">
+            <div class="ai-title">
+                <span class="ai-icon">🤖</span>
+                <h2>AI课程总结</h2>
+            </div>
+            <p class="ai-subtitle">AI根据课程内容进行总结，并布置课后作业</p>
+        </div>
+        
+        <div class="ai-main-container">
+            <!-- 左侧：AI总结内容 -->
+            <div class="ai-chat-panel">
+                <div class="ai-chat-header">
+                    <span class="chat-icon">📝</span>
+                    <span>AI学习助手</span>
+                    <span class="chat-step" id="aiChatStep">第 1 部分</span>
+                </div>
+                <div class="ai-chat-content" id="aiChatContent">
+                    <div class="ai-thought">
+                        <div class="thought-title">准备总结课程内容...</div>
+                        <div class="thought-desc">点击按钮，让AI为你总结本节课并布置作业</div>
+                    </div>
+                </div>
+                <div class="ai-chat-controls">
+                    <button class="ai-btn ai-btn-prev" id="aiBtnPrev" onclick="aiPrevStep()" disabled>← 上一步</button>
+                    <button class="ai-btn ai-btn-next" id="aiBtnNext" onclick="aiNextStep()">开始总结 →</button>
+                    <button class="ai-btn ai-btn-reset" id="aiBtnReset" onclick="aiReset()">重置</button>
+                </div>
             </div>
             
-            <div class="step-indicator">
-                <span>进度:</span>
-                <div class="step-progress" id="stepProgress">
-                    <!-- 动态生成 -->
+            <!-- 右侧：核心知识点 -->
+            <div class="ai-code-panel">
+                <div class="ai-code-header">
+                    <span class="code-icon">💡</span>
+                    <span>本节核心知识点</span>
+                    <span class="ai-status" id="aiStatus">等待中...</span>
+                </div>
+                <div class="ai-code-content">
+                    <div class="ai-code-display" id="aiCodeDisplay">
+                        <div class="ai-code-placeholder">
+                            <div class="typing-indicator">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <p>等待AI开始总结...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ai-progress-bar">
+                    <div class="ai-progress-fill" id="aiProgressFill" style="width: 0%"></div>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        // 初始数组
-        let initialArray = [4, 7, 6, 3, 1, 2, 5];
-        let currentArray = [...initialArray];
+        let originalArray = [4, 7, 6, 3, 1, 2, 5]; // 7个元素，下标0用于暂存
+        let array = [...originalArray];
+        let sortedIndices = new Set();
+        let steps = [];
         let currentStep = 0;
         let isAutoPlaying = false;
-        let autoPlayTimer = null;
+        let autoPlayInterval = null;
         
-        // 步骤数据（使用正确的分区算法）
-        const steps = [
-            {
-                title: "初始状态",
-                text: "初始数组为 <span class='highlight'>[4, 7, 6, 3, 1, 2, 5]</span>，准备开始快速排序。",
-                array: [4, 7, 6, 3, 1, 2, 5],
-                pivot: null,
-                i: null,
-                j: null,
-                codeLines: [],
-                blockStates: ['default', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第一步：选基准",
-                text: "选第一个元素 <span class='highlight'>4</span> 作为基准(pivot)。<br>目标：比4小的放左边，比4大的放右边。",
-                array: [4, 7, 6, 3, 1, 2, 5],
-                pivot: 4,
-                i: null,
-                j: null,
-                codeLines: [2],
-                blockStates: ['pivot', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第二步：初始化双指针",
-                text: "初始化双指针：<br><span class='highlight-red'>i = low + 1 = 1</span>（从基准的下一个开始）<br><span class='highlight-green'>j = high = 6</span>（从右端开始）",
-                array: [4, 7, 6, 3, 1, 2, 5],
-                pivot: 4,
-                i: 1,
-                j: 6,
-                codeLines: [3, 4],
-                blockStates: ['pivot', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第三步：i扫描找大元素",
-                text: "<span class='highlight-red'>i指针</span>从左往右扫描，寻找比基准4大的元素。<br>当前arr[1]=7 > 4，找到！i停在这里。",
-                array: [4, 7, 6, 3, 1, 2, 5],
-                pivot: 4,
-                i: 1,
-                j: 6,
-                codeLines: [8],
-                blockStates: ['pivot', 'found', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第四步：j扫描找小元素",
-                text: "<span class='highlight-green'>j指针</span>从右往左扫描，寻找比基准4小的元素。<br>当前arr[6]=5 > 4，继续左移...",
-                array: [4, 7, 6, 3, 1, 2, 5],
-                pivot: 4,
-                i: 1,
-                j: 5,
-                codeLines: [12, 13],
-                blockStates: ['pivot', 'found', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第五步：j继续扫描",
-                text: "<span class='highlight-green'>j指针</span>继续扫描。<br>当前arr[5]=2 < 4，找到！j停在这里。",
-                array: [4, 7, 6, 3, 1, 2, 5],
-                pivot: 4,
-                i: 1,
-                j: 5,
-                codeLines: [12],
-                blockStates: ['pivot', 'found', 'default', 'default', 'default', 'found', 'default']
-            },
-            {
-                title: "第六步：第一次交换",
-                text: "i=1 < j=5，执行交换：<br>交换 arr[1]=<span class='highlight-red'>7</span> 和 arr[5]=<span class='highlight-green'>2</span><br>大的放右边，小的放左边！",
-                array: [4, 2, 6, 3, 1, 7, 5],
-                pivot: 4,
-                i: 1,
-                j: 5,
-                codeLines: [16],
-                blockStates: ['pivot', 'swap', 'default', 'default', 'default', 'swap', 'default']
-            },
-            {
-                title: "第七步：交换完成，i右移",
-                text: "交换完成！<br>数组变为：<span class='highlight'>[4, 2, 6, 3, 1, 7, 5]</span><br>i右移到位置2继续扫描",
-                array: [4, 2, 6, 3, 1, 7, 5],
-                pivot: 4,
-                i: 2,
-                j: 5,
-                codeLines: [],
-                blockStates: ['pivot', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第八步：i扫描找大元素",
-                text: "<span class='highlight-red'>i指针</span>继续扫描。<br>当前arr[2]=6 > 4，找到！i停在这里。",
-                array: [4, 2, 6, 3, 1, 7, 5],
-                pivot: 4,
-                i: 2,
-                j: 5,
-                codeLines: [8],
-                blockStates: ['pivot', 'default', 'found', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第九步：j左移扫描",
-                text: "<span class='highlight-green'>j指针</span>继续向左扫描。<br>当前arr[5]=7 > 4，继续左移...",
-                array: [4, 2, 6, 3, 1, 7, 5],
-                pivot: 4,
-                i: 2,
-                j: 4,
-                codeLines: [12, 13],
-                blockStates: ['pivot', 'default', 'found', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第十步：j继续扫描",
-                text: "<span class='highlight-green'>j指针</span>继续扫描。<br>当前arr[4]=1 < 4，找到！j停在这里。",
-                array: [4, 2, 6, 3, 1, 7, 5],
-                pivot: 4,
-                i: 2,
-                j: 4,
-                codeLines: [12],
-                blockStates: ['pivot', 'default', 'found', 'default', 'found', 'default', 'default']
-            },
-            {
-                title: "第十一步：第二次交换",
-                text: "i=2 < j=4，执行交换：<br>交换 arr[2]=<span class='highlight-red'>6</span> 和 arr[4]=<span class='highlight-green'>1</span>",
-                array: [4, 2, 1, 3, 6, 7, 5],
-                pivot: 4,
-                i: 2,
-                j: 4,
-                codeLines: [16],
-                blockStates: ['pivot', 'default', 'swap', 'default', 'swap', 'default', 'default']
-            },
-            {
-                title: "第十二步：交换完成，i右移",
-                text: "交换完成！<br>数组变为：<span class='highlight'>[4, 2, 1, 3, 6, 7, 5]</span><br>i右移到位置3继续扫描",
-                array: [4, 2, 1, 3, 6, 7, 5],
-                pivot: 4,
-                i: 3,
-                j: 4,
-                codeLines: [],
-                blockStates: ['pivot', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第十三步：i扫描",
-                text: "<span class='highlight-red'>i指针</span>继续扫描。<br>当前arr[3]=3 < 4，不满足条件，i继续右移...",
-                array: [4, 2, 1, 3, 6, 7, 5],
-                pivot: 4,
-                i: 4,
-                j: 4,
-                codeLines: [8, 9],
-                blockStates: ['pivot', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第十四步：j扫描",
-                text: "<span class='highlight-green'>j指针</span>扫描。<br>当前arr[4]=6 > 4，不满足条件，j左移...",
-                array: [4, 2, 1, 3, 6, 7, 5],
-                pivot: 4,
-                i: 4,
-                j: 3,
-                codeLines: [12, 13],
-                blockStates: ['pivot', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第十五步：指针交叉",
-                text: "<span class='highlight-red'>i=4</span> > <span class='highlight-green'>j=3</span>，指针交叉！<br>while循环结束（i <= j 条件不满足）",
-                array: [4, 2, 1, 3, 6, 7, 5],
-                pivot: 4,
-                i: 4,
-                j: 3,
-                codeLines: [6],
-                blockStates: ['pivot', 'default', 'default', 'default', 'default', 'default', 'default']
-            },
-            {
-                title: "第十六步：基准归位",
-                text: "执行基准归位：<br>交换 arr[low]=<span class='highlight'>4</span> 和 arr[j]=<span class='highlight-green'>3</span><br>把pivot放到j的位置！",
-                array: [3, 2, 1, 4, 6, 7, 5],
-                pivot: 4,
-                i: 4,
-                j: 3,
-                codeLines: [19],
-                blockStates: ['swap', 'default', 'default', 'pivot', 'default', 'default', 'default']
-            },
-            {
-                title: "第十七步：分区完成",
-                text: "基准 <span class='highlight'>4</span> 归位成功！位置在索引3<br>左边 <span class='highlight-green'>[3, 2, 1]</span> 都比4小<br>右边 <span class='highlight-red'>[6, 7, 5]</span> 都比4大<br>返回 j=3",
-                array: [3, 2, 1, 4, 6, 7, 5],
-                pivot: 4,
-                i: 4,
-                j: 3,
-                codeLines: [20],
-                blockStates: ['done', 'done', 'done', 'done', 'default', 'default', 'default']
-            },
-            {
-                title: "第十八步：递归处理左边",
-                text: "对左边分区 <span class='highlight-green'>[3, 2, 1]</span>（索引0-2）递归调用快速排序。<br>选基准：arr[0]=3",
-                array: [3, 2, 1, 4, 6, 7, 5],
-                pivot: 3,
-                i: 1,
-                j: 2,
-                codeLines: [25],
-                blockStates: ['pivot', 'default', 'default', 'done', 'default', 'default', 'default']
-            },
-            {
-                title: "第十九步：左边分区处理",
-                text: "左边分区处理过程：<br>i=1找到2<3不满足，i=2找到1<3不满足，i=3>j=2循环结束<br>交换arr[0]和arr[2]，3和1交换",
-                array: [1, 2, 3, 4, 6, 7, 5],
-                pivot: 3,
-                i: 3,
-                j: 2,
-                codeLines: [19],
-                blockStates: ['done', 'default', 'done', 'done', 'default', 'default', 'default']
-            },
-            {
-                title: "第二十步：左边分区完成",
-                text: "左边分区排序完成：<span class='highlight-green'>[1, 2, 3]</span><br>继续递归处理更小的分区...",
-                array: [1, 2, 3, 4, 6, 7, 5],
-                pivot: null,
-                i: null,
-                j: null,
-                codeLines: [25],
-                blockStates: ['done', 'done', 'done', 'done', 'default', 'default', 'default']
-            },
-            {
-                title: "第二十一步：递归处理右边",
-                text: "对右边分区 <span class='highlight-red'>[6, 7, 5]</span>（索引4-6）递归调用快速排序。<br>选基准：arr[4]=6",
-                array: [1, 2, 3, 4, 6, 7, 5],
-                pivot: 6,
-                i: 5,
-                j: 6,
-                codeLines: [26],
-                blockStates: ['done', 'done', 'done', 'done', 'pivot', 'default', 'default']
-            },
-            {
-                title: "第二十二步：右边分区处理",
-                text: "右边分区处理：<br>i=5找到7>6，j=6找到5<6<br>交换7和5，然后i=6>j=5循环结束<br>交换arr[4]和arr[5]，6和5交换",
-                array: [1, 2, 3, 4, 5, 6, 7],
-                pivot: 6,
-                i: 6,
-                j: 5,
-                codeLines: [19],
-                blockStates: ['done', 'done', 'done', 'done', 'done', 'done', 'default']
-            },
-            {
-                title: "🎉 排序完成！",
-                text: "最终结果：<span class='highlight'>[1, 2, 3, 4, 5, 6, 7]</span><br><br>时间复杂度：<strong>O(n log n)</strong><br>空间复杂度：<strong>O(log n)</strong><br><br>快速排序是效率最高的排序算法之一！",
-                array: [1, 2, 3, 4, 5, 6, 7],
-                pivot: null,
-                i: null,
-                j: null,
-                codeLines: [],
-                blockStates: ['done', 'done', 'done', 'done', 'done', 'done', 'done']
+        // 初始化
+        renderArray();
+        
+        function setCustomArray() {
+            const input = document.getElementById('arrayInput').value;
+            const values = input.split(',').map(v => parseInt(v.trim())).filter(v => !isNaN(v));
+            if (values.length > 0) {
+                originalArray = values;
+                reset();
+                generateSteps();
+            } else {
+                alert('请输入有效的数字数组');
             }
-        ];
+        }
         
-        // 渲染数组
-        function renderArray() {
-            const step = steps[currentStep];
-            const container = document.getElementById('arrayContainer');
+        function renderArray(highlights = {}) {
+            const container = document.getElementById('arrayDisplay');
             container.innerHTML = '';
             
-            step.array.forEach((value, index) => {
-                const block = document.createElement('div');
-                block.className = `block block-${step.blockStates[index]}`;
-                block.innerHTML = value;
+            // 找出最大值用于计算高度（排除空位）
+            const validValues = array.filter(v => v !== null && v !== undefined);
+            const maxVal = validValues.length > 0 ? Math.max(...validValues) : 100;
+            const maxHeight = 140;
+            const minHeight = 40;
+            
+            // 先渲染下标0的暂存位置
+            const tempItem = document.createElement('div');
+            tempItem.className = 'array-item';
+            
+            // 暂存位置的柱状条
+            const tempBar = document.createElement('div');
+            tempBar.className = 'array-bar temp-storage';
+            
+            // 如果有暂存的pivot值，显示它
+            if (highlights.pivotValue !== undefined && highlights.pivotValue !== null) {
+                const height = minHeight + (highlights.pivotValue / maxVal) * (maxHeight - minHeight);
+                tempBar.style.height = height + 'px';
                 
-                // 添加指针
-                if (step.i === index || step.j === index) {
-                    const pointerContainer = document.createElement('div');
-                    pointerContainer.className = 'pointer-container';
-                    
-                    if (step.i === index) {
-                        const pointerI = document.createElement('div');
-                        pointerI.className = 'pointer pointer-i';
-                        pointerI.innerHTML = 'i↓';
-                        pointerContainer.appendChild(pointerI);
-                    }
-                    
-                    if (step.j === index) {
-                        const pointerJ = document.createElement('div');
-                        pointerJ.className = 'pointer pointer-j';
-                        pointerJ.innerHTML = 'j↓';
-                        pointerContainer.appendChild(pointerJ);
-                    }
-                    
-                    block.appendChild(pointerContainer);
-                }
-                
-                // 添加索引标签
-                const indexLabel = document.createElement('div');
-                indexLabel.className = 'index-label';
-                indexLabel.innerHTML = `[${index}]`;
-                block.appendChild(indexLabel);
-                
-                container.appendChild(block);
-            });
-        }
-        
-        // 更新变量面板
-        function updateVariables() {
-            const step = steps[currentStep];
-            document.getElementById('varPivot').textContent = step.pivot !== null ? step.pivot : '-';
-            document.getElementById('varI').textContent = step.i !== null ? step.i : '-';
-            document.getElementById('varJ').textContent = step.j !== null ? step.j : '-';
-            document.getElementById('varArray').textContent = `[${step.array.join(', ')}]`;
-        }
-        
-        // 更新步骤说明
-        function updateDescription() {
-            const step = steps[currentStep];
-            document.getElementById('stepTitle').textContent = step.title;
-            document.getElementById('stepText').innerHTML = step.text;
-        }
-        
-        // 高亮代码行
-        function highlightCode() {
-            const step = steps[currentStep];
-            const allLines = document.querySelectorAll('.code-line');
-            
-            allLines.forEach((line, index) => {
-                line.classList.remove('active', 'executed');
-                if (step.codeLines.includes(index + 1)) {
-                    line.classList.add('active');
-                }
-            });
-        }
-        
-        // 更新步骤指示器
-        function updateStepIndicator() {
-            document.getElementById('stepCounter').textContent = `步骤 ${currentStep + 1} / ${steps.length}`;
-            
-            const progress = document.getElementById('stepProgress');
-            progress.innerHTML = '';
-            
-            for (let i = 0; i < Math.min(steps.length, 20); i++) {
-                const dot = document.createElement('div');
-                dot.className = 'step-dot';
-                if (i < currentStep) dot.classList.add('done');
-                if (i === currentStep) dot.classList.add('active');
-                progress.appendChild(dot);
-            }
-            
-            if (steps.length > 20) {
-                const more = document.createElement('span');
-                more.textContent = '...';
-                progress.appendChild(more);
-            }
-        }
-        
-        // 更新按钮状态
-        function updateButtons() {
-            document.getElementById('btnPrev').disabled = currentStep === 0;
-            document.getElementById('btnNext').disabled = currentStep === steps.length - 1;
-        }
-        
-        // 下一步
-        function nextStep() {
-            if (currentStep < steps.length - 1) {
-                currentStep++;
-                updateAll();
-            }
-        }
-        
-        // 上一步
-        function prevStep() {
-            if (currentStep > 0) {
-                currentStep--;
-                updateAll();
-            }
-        }
-        
-        // 重置
-        function reset() {
-            currentStep = 0;
-            updateAll();
-            if (isAutoPlaying) {
-                toggleAuto();
-            }
-        }
-        
-        // 自动播放
-        function toggleAuto() {
-            const btn = document.getElementById('btnAuto');
-            isAutoPlaying = !isAutoPlaying;
-            
-            if (isAutoPlaying) {
-                btn.textContent = '⏸ 暂停';
-                autoPlay();
+                const tempValue = document.createElement('div');
+                tempValue.className = 'array-value';
+                tempValue.textContent = highlights.pivotValue;
+                tempBar.appendChild(tempValue);
             } else {
-                btn.textContent = '▶ 自动播放';
-                clearTimeout(autoPlayTimer);
+                tempBar.style.height = minHeight + 'px';
+                const tempValue = document.createElement('div');
+                tempValue.className = 'array-value';
+                tempValue.textContent = '-';
+                tempBar.appendChild(tempValue);
+            }
+            
+            tempItem.appendChild(tempBar);
+            
+            // 暂存位置的下标
+            const tempIndex = document.createElement('div');
+            tempIndex.className = 'array-index temp-index';
+            tempIndex.textContent = '0';
+            tempItem.appendChild(tempIndex);
+            
+            // 暂存标签
+            const tempLabel = document.createElement('div');
+            tempLabel.className = 'temp-label';
+            tempLabel.textContent = '暂存';
+            tempItem.appendChild(tempLabel);
+            
+            container.appendChild(tempItem);
+            
+            // 渲染实际数组（从下标1开始）
+            array.forEach((value, index) => {
+                const item = document.createElement('div');
+                item.className = 'array-item';
+                
+                // i和j指针标记
+                if (highlights.i === index && highlights.j === index) {
+                    // i和j相遇时，显示合并标签
+                    const bothLabel = document.createElement('div');
+                    bothLabel.className = 'pointer-label both-pointer';
+                    bothLabel.innerHTML = '<span style="color:#ff5722">i</span>,<span style="color:#4caf50">j</span>↓';
+                    item.appendChild(bothLabel);
+                } else {
+                    // i指针标记
+                    if (highlights.i === index) {
+                        const iLabel = document.createElement('div');
+                        iLabel.className = 'pointer-label i-label';
+                        iLabel.textContent = 'i↓';
+                        item.appendChild(iLabel);
+                    }
+                    
+                    // j指针标记
+                    if (highlights.j === index) {
+                        const jLabel = document.createElement('div');
+                        jLabel.className = 'pointer-label j-label';
+                        jLabel.textContent = 'j↓';
+                        item.appendChild(jLabel);
+                    }
+                }
+                
+                // 柱状条
+                const bar = document.createElement('div');
+                bar.className = 'array-bar';
+                
+                // 判断是否为空位
+                const isEmpty = (value === null || value === undefined);
+                
+                if (isEmpty) {
+                    // 空位：显示虚线框
+                    bar.classList.add('empty-slot');
+                    bar.style.height = minHeight + 'px';
+                    
+                    const emptyValue = document.createElement('div');
+                    emptyValue.className = 'array-value';
+                    emptyValue.textContent = '-';
+                    emptyValue.style.color = '#999';
+                    bar.appendChild(emptyValue);
+                } else {
+                    // 有值：根据数值计算高度
+                    const height = minHeight + (value / maxVal) * (maxHeight - minHeight);
+                    bar.style.height = height + 'px';
+                    
+                    // 应用样式
+                    if (sortedIndices.has(index)) {
+                        bar.classList.add('sorted');
+                    }
+                    if (highlights.pivot === index) {
+                        bar.classList.add('pivot');
+                    }
+                    if (highlights.comparing === index) {
+                        bar.classList.add('comparing');
+                    }
+                    if (highlights.swapping && highlights.swapping.includes(index)) {
+                        bar.classList.add('swapping');
+                    }
+                    if (highlights.i === index && !highlights.swapping) {
+                        bar.classList.add('low-pointer');
+                    }
+                    if (highlights.j === index && !highlights.swapping) {
+                        bar.classList.add('high-pointer');
+                    }
+                    
+                    // 数值
+                    const valueDiv = document.createElement('div');
+                    valueDiv.className = 'array-value';
+                    valueDiv.textContent = value;
+                    bar.appendChild(valueDiv);
+                }
+                
+                item.appendChild(bar);
+                
+                // 索引（从1开始）
+                const indexDiv = document.createElement('div');
+                indexDiv.className = 'array-index';
+                indexDiv.textContent = index + 1;
+                item.appendChild(indexDiv);
+                
+                container.appendChild(item);
+            });
+            
+            // 更新数组状态
+            const displayArray = array.map(v => (v === null || v === undefined) ? '-' : v);
+            const fullArray = ['-'].concat(displayArray);
+            document.getElementById('arrayState').textContent = `[${fullArray.join(', ')}]`;
+        }
+        
+        function updateInfo(step) {
+            document.getElementById('pivotValue').textContent = step.pivotValue !== undefined ? step.pivotValue : '-';
+            document.getElementById('lowValue').textContent = step.i !== undefined ? step.i : '-';
+            document.getElementById('highValue').textContent = step.j !== undefined ? step.j : '-';
+            document.getElementById('stepTitle').textContent = step.title || '';
+            document.getElementById('stepContent').textContent = step.info || '';
+            document.getElementById('stepBadge').textContent = `步骤 ${currentStep + 1} / ${steps.length}`;
+        }
+        
+        function highlightCode(lineId) {
+            document.querySelectorAll('.code-line').forEach(line => {
+                line.classList.remove('active');
+            });
+            if (lineId) {
+                const el = document.getElementById(lineId);
+                if (el) {
+                    el.classList.add('active');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         }
         
-        function autoPlay() {
-            if (!isAutoPlaying || currentStep >= steps.length - 1) {
-                if (currentStep >= steps.length - 1) {
-                    isAutoPlaying = false;
-                    document.getElementById('btnAuto').textContent = '▶ 自动播放';
+        function updateProgress() {
+            const container = document.getElementById('progressDots');
+            const totalDots = Math.min(steps.length, 30);
+            const dotSize = Math.floor(steps.length / totalDots);
+            
+            container.innerHTML = '';
+            for (let i = 0; i < totalDots; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                const stepIndex = i * dotSize;
+                if (currentStep >= stepIndex) {
+                    dot.classList.add('active');
                 }
-                return;
+                container.appendChild(dot);
+            }
+        }
+        
+        // 生成排序步骤（教材挖坑填坑法 - 正确实现）
+        function generateSteps() {
+            steps = [];
+            const arr = [...originalArray];
+            
+            // 初始状态
+            steps.push({
+                type: 'initial',
+                array: [...arr],
+                title: '初始状态',
+                info: `待排序数组：[${arr.join(', ')}]`,
+                codeLine: null,
+                pivotValue: null
+            });
+            
+            function partition(arr, low, high) {
+                const pivotValue = arr[low];
+                let i = low, j = high;
+                
+                // 步骤1：选择枢轴并暂存
+                steps.push({
+                    type: 'select-pivot',
+                    array: [...arr],
+                    i, j,
+                    pivot: low,
+                    pivotValue,
+                    title: '选择枢轴',
+                    info: `选择 arr[${low}] = ${pivotValue} 作为枢轴，暂存到 r[0]`,
+                    codeLine: 'code-3'
+                });
+                
+                // 暂存枢轴后，low位置变成空位
+                arr[low] = null;
+                
+                steps.push({
+                    type: 'pivot-stored',
+                    array: [...arr],
+                    i, j,
+                    pivot: null, // pivot已不在数组中
+                    pivotValue,
+                    title: '枢轴已暂存',
+                    info: `枢轴 ${pivotValue} 已暂存到 r[0]，位置 ${low} 变为空位`,
+                    codeLine: 'code-4'
+                });
+                
+                while (i < j) {
+                    // j从右向左找小于pivot的
+                    while (i < j && arr[j] !== null && arr[j] >= pivotValue) {
+                        steps.push({
+                            array: [...arr],
+                            i, j,
+                            pivotValue,
+                            comparing: j,
+                            title: 'j指针左移',
+                            info: `arr[${j}] = ${arr[j]} ≥ ${pivotValue}，j继续左移`,
+                            codeLine: 'code-8'
+                        });
+                        j--;
+                    }
+                    
+                    if (i < j && arr[j] !== null && arr[j] < pivotValue) {
+                        // 找到小于pivot的元素，移到i位置
+                        const moveValue = arr[j];
+                        steps.push({
+                            array: [...arr],
+                            i, j,
+                            pivotValue,
+                            swapping: [i, j],
+                            title: '小的移到低端',
+                            info: `找到 arr[${j}] = ${moveValue} < ${pivotValue}，移动到位置 ${i}，位置 ${j} 变空`,
+                            codeLine: 'code-10'
+                        });
+                        arr[i] = arr[j];
+                        arr[j] = null; // 原位置变空
+                        i++;
+                        
+                        // 显示移动后的状态
+                        steps.push({
+                            array: [...arr],
+                            i, j: j,
+                            pivotValue,
+                            title: '移动完成',
+                            info: `${moveValue} 已移到低端，位置 ${j} 变为空位`,
+                            codeLine: 'code-10'
+                        });
+                    }
+                    
+                    // i从左向右找大于pivot的
+                    while (i < j && arr[i] !== null && arr[i] <= pivotValue) {
+                        steps.push({
+                            array: [...arr],
+                            i, j,
+                            pivotValue,
+                            comparing: i,
+                            title: 'i指针右移',
+                            info: `arr[${i}] = ${arr[i]} ≤ ${pivotValue}，i继续右移`,
+                            codeLine: 'code-13'
+                        });
+                        i++;
+                    }
+                    
+                    if (i < j && arr[i] !== null && arr[i] > pivotValue) {
+                        // 找到大于pivot的元素，移到j位置
+                        const moveValue = arr[i];
+                        steps.push({
+                            array: [...arr],
+                            i, j,
+                            pivotValue,
+                            swapping: [i, j],
+                            title: '大的移到高端',
+                            info: `找到 arr[${i}] = ${moveValue} > ${pivotValue}，移动到位置 ${j}，位置 ${i} 变空`,
+                            codeLine: 'code-15'
+                        });
+                        arr[j] = arr[i];
+                        arr[i] = null; // 原位置变空
+                        j--;
+                        
+                        // 显示移动后的状态
+                        steps.push({
+                            array: [...arr],
+                            i: i,
+                            j,
+                            pivotValue,
+                            title: '移动完成',
+                            info: `${moveValue} 已移到高端，位置 ${i} 变为空位`,
+                            codeLine: 'code-15'
+                        });
+                    }
+                }
+                
+                // i和j相遇，显示空位状态
+                steps.push({
+                    array: [...arr],
+                    i, j,
+                    pivotValue,
+                    title: 'i和j相遇',
+                    info: `i和j在位置 ${i} 相遇，该位置为空位，准备放置枢轴`,
+                    codeLine: 'code-17'
+                });
+                
+                // 枢轴归位：将暂存的pivot放到空位
+                arr[i] = pivotValue;
+                steps.push({
+                    array: [...arr],
+                    i, j,
+                    pivot: i,
+                    pivotValue: null, // pivot已归位，不再暂存
+                    sortedIndex: i,
+                    title: '枢轴归位',
+                    info: `枢轴 ${pivotValue} 归位到位置 ${i}，该位置元素已有序`,
+                    codeLine: 'code-17'
+                });
+                
+                return i;
             }
             
-            const speed = document.getElementById('speedSlider').value;
-            autoPlayTimer = setTimeout(() => {
-                nextStep();
-                autoPlay();
+            function quickSort(arr, low, high) {
+                if (low < high) {
+                    const pivotPos = partition(arr, low, high);
+                    quickSort(arr, low, pivotPos - 1);
+                    quickSort(arr, pivotPos + 1, high);
+                }
+            }
+            
+            quickSort(arr, 0, arr.length - 1);
+            
+            // 完成
+            steps.push({
+                array: [...arr],
+                title: '排序完成',
+                info: `最终结果：[${arr.join(', ')}]`,
+                codeLine: null,
+                pivotValue: null
+            });
+            
+            // 初始化按钮状态
+            document.getElementById('btnNext').disabled = false;
+            document.getElementById('btnAuto').disabled = false;
+            updateProgress();
+        }
+        
+        function executeStep() {
+            if (currentStep >= steps.length) return false;
+            
+            const step = steps[currentStep];
+            array = [...step.array];
+            
+            if (step.sortedIndex !== undefined) {
+                sortedIndices.add(step.sortedIndex);
+            }
+            
+            renderArray({
+                pivot: step.pivot,
+                i: step.i,
+                j: step.j,
+                comparing: step.comparing,
+                swapping: step.swapping,
+                pivotValue: step.pivotValue
+            });
+            
+            updateInfo(step);
+            highlightCode(step.codeLine);
+            updateProgress();
+            
+            currentStep++;
+            
+            document.getElementById('btnPrev').disabled = currentStep <= 1;
+            document.getElementById('btnNext').disabled = currentStep >= steps.length;
+            
+            if (currentStep >= steps.length) {
+                stopAutoPlay();
+                document.getElementById('btnAuto').disabled = true;
+            }
+            
+            return true;
+        }
+        
+        function nextStep() {
+            executeStep();
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                sortedIndices.clear();
+                
+                // 重新执行到当前步骤
+                const tempArray = [...originalArray];
+                const tempSteps = [];
+                
+                for (let i = 0; i < currentStep; i++) {
+                    if (steps[i].sortedIndex !== undefined) {
+                        sortedIndices.add(steps[i].sortedIndex);
+                    }
+                }
+                
+                array = [...steps[currentStep - 1].array];
+                
+                renderArray({
+                    pivot: steps[currentStep - 1].pivot,
+                    i: steps[currentStep - 1].i,
+                    j: steps[currentStep - 1].j,
+                    comparing: steps[currentStep - 1].comparing,
+                    swapping: steps[currentStep - 1].swapping,
+                    pivotValue: steps[currentStep - 1].pivotValue
+                });
+                
+                updateInfo(steps[currentStep - 1]);
+                highlightCode(steps[currentStep - 1].codeLine);
+                updateProgress();
+                
+                document.getElementById('btnNext').disabled = false;
+                document.getElementById('btnAuto').disabled = false;
+            }
+        }
+        
+        function toggleAutoPlay() {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+            } else {
+                startAutoPlay();
+            }
+        }
+        
+        function startAutoPlay() {
+            isAutoPlaying = true;
+            const btn = document.getElementById('btnAuto');
+            btn.textContent = '⏸ 暂停';
+            btn.classList.add('playing');
+            
+            const speed = parseInt(document.getElementById('speedSlider').value);
+            autoPlayInterval = setInterval(() => {
+                if (!executeStep()) {
+                    stopAutoPlay();
+                }
             }, speed);
         }
         
-        // 更新所有显示
-        function updateAll() {
-            renderArray();
-            updateVariables();
-            updateDescription();
-            highlightCode();
-            updateStepIndicator();
-            updateButtons();
+        function stopAutoPlay() {
+            isAutoPlaying = false;
+            const btn = document.getElementById('btnAuto');
+            btn.textContent = '▶ 自动播放';
+            btn.classList.remove('playing');
+            
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+            }
         }
         
-        // 初始化
-        updateAll();
+        function reset() {
+            stopAutoPlay();
+            
+            array = [...originalArray];
+            sortedIndices.clear();
+            currentStep = 0;
+            steps = [];
+            
+            renderArray();
+            
+            document.getElementById('pivotValue').textContent = '-';
+            document.getElementById('lowValue').textContent = '-';
+            document.getElementById('highValue').textContent = '-';
+            document.getElementById('stepTitle').textContent = '初始状态';
+            document.getElementById('stepContent').textContent = '点击"开始排序"按钮开始演示快速排序过程';
+            document.getElementById('stepBadge').textContent = '步骤 0 / 0';
+            
+            highlightCode(null);
+            
+            document.getElementById('btnPrev').disabled = true;
+            document.getElementById('btnNext').disabled = true;
+            document.getElementById('btnAuto').disabled = true;
+            
+            document.getElementById('progressDots').innerHTML = '';
+            
+            generateSteps();
+        }
+        
+        // 速度滑块
+        document.getElementById('speedSlider').addEventListener('input', function() {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        });
+        
+        // 页面加载时生成步骤
+        generateSteps();
+        
+        // ========== AI课程总结模块 ==========
+        let aiCurrentStep = 0;
+        const aiTotalSteps = 3;
+        
+        // AI总结的三个部分
+        const aiStages = [
+            {
+                step: 1,
+                title: "第一部分：课程内容总结",
+                thought: `
+                    <div class="thought-step">
+                        <h4>📚 本节课主题</h4>
+                        <p><strong>快速排序的算法思想——分治法</strong></p>
+                        <p>通过快递站分拣场景，我们学习了快速排序的核心思想：</p>
+                    </div>
+                    <div class="thought-highlight">
+                        分治思想：把大问题分解成小问题，逐个解决后再合并结果
+                    </div>
+                    <div class="thought-step">
+                        <h4>🎯 核心步骤</h4>
+                        <ul>
+                            <li><strong>选基准</strong>：选择一个元素作为参照标准</li>
+                            <li><strong>分区</strong>：小的放左边，大的放右边</li>
+                            <li><strong>递归</strong>：对左右两部分重复上述过程</li>
+                        </ul>
+                    </div>
+                `,
+                points: [
+                    { icon: '🎯', title: '核心思想', content: '分治法：分解 → 解决 → 合并' },
+                    { icon: '📍', title: '关键操作', content: 'Partition函数：选基准、双向扫描、基准归位' },
+                    { icon: '🔄', title: '执行方式', content: '递归调用：处理左半部分 → 处理右半部分' },
+                    { icon: '⚡', title: '时间效率', content: '平均 O(n log n)，最坏 O(n²)' }
+                ]
+            },
+            {
+                step: 2,
+                title: "第二部分：课后作业",
+                thought: `
+                    <div class="thought-step">
+                        <h4>✍️ 作业一：动手实践</h4>
+                        <p>在可视化网页中输入数组 [23, 56, 12, 89, 34, 67, 45]，观察排序过程</p>
+                    </div>
+                    <div class="thought-step">
+                        <h4>✍️ 作业二：思考题</h4>
+                        <ul>
+                            <li>如果数组已经有序，快速排序的效率会如何？</li>
+                            <li>为什么说快速排序是"不稳定"的排序？</li>
+                        </ul>
+                    </div>
+                    <div class="thought-step">
+                        <h4>✍️ 作业三：预习准备</h4>
+                        <p>思考：快速排序和归并排序都用到了"分治"，它们有什么不同？</p>
+                    </div>
+                `,
+                points: [
+                    { icon: '💻', title: '作业一', content: '动手操作：用网页练习不同数组的排序过程' },
+                    { icon: '🤔', title: '作业二', content: '思考题：有序数组效率？稳定性问题？' },
+                    { icon: '📖', title: '作业三', content: '预习思考：快排 vs 归并排序的区别' },
+                    { icon: '📝', title: '提交方式', content: '下节课前完成，课堂讨论分享' }
+                ]
+            },
+            {
+                step: 3,
+                title: "第三部分：下节课预告",
+                thought: `
+                    <div class="thought-step">
+                        <h4>📚 下节课主题</h4>
+                        <p><strong>冒泡排序（Bubble Sort）</strong></p>
+                        <p>相比快速排序的"分治法"，下节课我们将学习另一种经典的排序方法：</p>
+                    </div>
+                    <div class="thought-highlight">
+                        相邻比较，大的后沉——简单但经典的排序算法
+                    </div>
+                    <div class="thought-step">
+                        <h4>📋 下节课内容</h4>
+                        <ul>
+                            <li>冒泡排序的基本思想：相邻元素两两比较，大的往后"沉"</li>
+                            <li>算法过程的详细演示：每一轮如何让最大元素归位</li>
+                            <li>代码实现：双重循环的经典写法</li>
+                            <li>算法优化：提前终止标志、减少无效比较</li>
+                            <li>与快速排序的对比：适用场景与性能分析</li>
+                        </ul>
+                    </div>
+                `,
+                points: [
+                    { icon: '🔄', title: '基本思想', content: '相邻元素两两比较，大值后移（像气泡上浮）' },
+                    { icon: '📊', title: '执行过程', content: '每轮确定一个最大元素归位，n轮完成排序' },
+                    { icon: '⚡', title: '时间复杂度', content: '平均/最坏 O(n²)，最好 O(n)（优化后）' },
+                    { icon: '⚖️', title: '对比快排', content: '简单稳定但较慢，适合小规模或基本有序数据' }
+                ]
+            }
+        ];
+        
+        function aiNextStep() {
+            if (aiCurrentStep >= aiTotalSteps) return;
+            
+            aiCurrentStep++;
+            const stage = aiStages[aiCurrentStep - 1];
+            
+            // 更新步骤显示
+            document.getElementById('aiChatStep').textContent = `第 ${aiCurrentStep} 部分`;
+            document.getElementById('aiStatus').textContent = '总结中...';
+            document.getElementById('aiStatus').classList.add('writing');
+            
+            // 更新进度条
+            document.getElementById('aiProgressFill').style.width = `${(aiCurrentStep / aiTotalSteps) * 100}%`;
+            
+            // 显示总结内容
+            document.getElementById('aiChatContent').innerHTML = `
+                <div class="ai-thought">
+                    <div class="thought-title">${stage.title}</div>
+                    <div class="thought-desc">${stage.thought}</div>
+                </div>
+            `;
+            
+            // 延迟显示知识点
+            setTimeout(() => {
+                showPoints(stage.points);
+                
+                document.getElementById('aiStatus').textContent = aiCurrentStep === aiTotalSteps ? '总结完成' : '继续';
+                if (aiCurrentStep === aiTotalSteps) {
+                    document.getElementById('aiStatus').classList.remove('writing');
+                    document.getElementById('aiStatus').classList.add('completed');
+                    document.getElementById('aiBtnNext').textContent = '✓ 完成';
+                    document.getElementById('aiBtnNext').disabled = true;
+                }
+            }, 300);
+            
+            // 更新按钮状态
+            document.getElementById('aiBtnPrev').disabled = false;
+            if (aiCurrentStep < aiTotalSteps) {
+                document.getElementById('aiBtnNext').textContent = `下一部分 →`;
+            }
+        }
+        
+        function aiPrevStep() {
+            if (aiCurrentStep <= 1) return;
+            
+            aiCurrentStep--;
+            const stage = aiStages[aiCurrentStep - 1];
+            
+            // 更新步骤显示
+            document.getElementById('aiChatStep').textContent = `第 ${aiCurrentStep} 部分`;
+            document.getElementById('aiProgressFill').style.width = `${(aiCurrentStep / aiTotalSteps) * 100}%`;
+            
+            // 显示总结内容
+            document.getElementById('aiChatContent').innerHTML = `
+                <div class="ai-thought">
+                    <div class="thought-title">${stage.title}</div>
+                    <div class="thought-desc">${stage.thought}</div>
+                </div>
+            `;
+            
+            // 显示知识点
+            showPoints(stage.points);
+            
+            // 更新按钮状态
+            document.getElementById('aiBtnPrev').disabled = aiCurrentStep <= 1;
+            document.getElementById('aiBtnNext').textContent = aiCurrentStep === aiTotalSteps ? '✓ 完成' : '下一部分 →';
+            document.getElementById('aiBtnNext').disabled = false;
+            document.getElementById('aiStatus').textContent = '继续';
+            document.getElementById('aiStatus').classList.remove('completed');
+        }
+        
+        function aiReset() {
+            aiCurrentStep = 0;
+            
+            document.getElementById('aiChatStep').textContent = '第 1 部分';
+            document.getElementById('aiStatus').textContent = '等待中...';
+            document.getElementById('aiStatus').classList.remove('writing', 'completed');
+            document.getElementById('aiProgressFill').style.width = '0%';
+            
+            document.getElementById('aiChatContent').innerHTML = `
+                <div class="ai-thought">
+                    <div class="thought-title">准备总结课程内容...</div>
+                    <div class="thought-desc">点击按钮，让AI为你总结本节课并布置作业</div>
+                </div>
+            `;
+            
+            document.getElementById('aiCodeDisplay').innerHTML = `
+                <div class="ai-code-placeholder">
+                    <div class="typing-indicator">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p>等待AI开始总结...</p>
+                </div>
+            `;
+            
+            document.getElementById('aiBtnPrev').disabled = true;
+            document.getElementById('aiBtnNext').textContent = '开始总结 →';
+            document.getElementById('aiBtnNext').disabled = false;
+        }
+        
+        function showPoints(points) {
+            const display = document.getElementById('aiCodeDisplay');
+            display.innerHTML = '';
+            
+            points.forEach((point, index) => {
+                const item = document.createElement('div');
+                item.className = 'point-item';
+                item.style.animationDelay = `${index * 0.1}s`;
+                item.innerHTML = `
+                    <div class="point-icon">${point.icon}</div>
+                    <div class="point-content">
+                        <div class="point-title">${point.title}</div>
+                        <div class="point-text">${point.content}</div>
+                    </div>
+                `;
+                display.appendChild(item);
+            });
+        }
+    </script>
+    
+    <!-- 随堂测验模块 -->
+    <div class="quiz-section" id="quizSection">
+        <div class="quiz-header">
+            <div class="quiz-title">
+                <span class="quiz-icon">🎯</span>
+                <h2>随堂测验</h2>
+            </div>
+            <p class="quiz-subtitle">检验一下你对快速排序的掌握程度吧！</p>
+        </div>
+        
+        <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 4px solid #f39c12; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; color: #856404;">
+            💡 <strong>实操提示：</strong>部分题目需要先在上方可视化区域输入指定数组并执行排序，观察结果后再回答。建议先操作、再答题！
+        </div>
+        
+        <div class="quiz-progress-container" id="quizProgressContainer" style="display: none;">
+            <div class="quiz-progress-info">
+                <span class="quiz-progress-text" id="quizProgressText">第 1 / 5 题</span>
+                <span class="quiz-score-display" id="quizScoreDisplay">得分: 0</span>
+            </div>
+            <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quizProgressFill" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <div class="quiz-question-container" id="quizContainer">
+            <div class="quiz-placeholder" id="quizPlaceholder">
+                <div class="quiz-placeholder-icon">📝</div>
+                <p>准备开始测验了吗？</p>
+                <span>共5道题（含实操题，请先在上方可视化区域操作后再作答），点击按钮开始</span>
+            </div>
+            <div class="quiz-start-area" id="quizStartArea" style="display: none;">
+                <div style="text-align: center; padding: 40px 20px;">
+                    <button class="quiz-btn quiz-btn-primary" onclick="startQuiz()">
+                        🎯 开始测验
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ========== 随堂测验模块 ==========
+        // 题库
+        const questionBank = [
+            {
+                question: "【Quickselect拓展题】给定数组 [49, 38, 65, 97, 76, 13, 27, 49]，利用快速排序的分区思想，找出第4小的元素是？请先在上方可视化区域输入该数组并执行排序，观察分区过程中枢轴的落位。",
+                options: ["27", "38", "49", "65"],
+                answer: 2,
+                explanation: "利用Quickselect思想：第一轮以49为枢轴分区后，枢轴落位到索引4，左边4个元素[27,13,38,49]均≤49。因为我们要找第4小，而枢轴左侧恰好有4个元素≤49，所以第4小的元素就是49（第一个49）。",
+                hint: `<strong>解题思路：</strong>这道题不需要完整排序！利用分区就能定位。<br><br>
+<span class="hint-highlight">Quickselect核心思想</span>：分区一次，枢轴归位后，根据枢轴位置判断目标在哪一侧。<br><br>
+<span class="hint-step">① 在网页输入：49, 38, 65, 97, 76, 13, 27, 49</span>
+<span class="hint-step">② 执行第一轮分区，观察枢轴49落位到哪个索引</span>
+<span class="hint-step">③ 枢轴左边有几个元素？它们都≤枢轴</span>
+<span class="hint-step">④ 如果左边有k个元素≤枢轴，那第k小或第(k+1)小就确定了</span>
+<br>
+<span class="hint-highlight">现实意义：双十一快递站想找"配送时长第3短的路线"，不需要全部排序，分区一轮就能缩小范围！平均时间复杂度仅O(n)，比完整排序O(nlogn)更快。</span>`,
+                isAlwaysFirst: true
+            },
+            {
+                question: "快速排序采用的核心算法思想是？",
+                options: ["贪心法", "分治法", "动态规划", "回溯法"],
+                answer: 1,
+                explanation: "快速排序通过选择枢轴将数组分为两部分，分别递归排序，是典型的分治思想应用。",
+                hint: `<strong>解题思路：</strong>回忆快速排序的三个核心步骤——<br>
+<span class="hint-step">① 选枢轴：找一个元素作为"基准"</span>
+<span class="hint-step">② 分区：小的放左边、大的放右边</span>
+<span class="hint-step">③ 递归：对左右两边分别重复上述过程</span>
+<br>
+把<span class="hint-highlight">大问题拆成小问题</span>，分别解决后再合并结果，这就是<span class="hint-highlight">"分治法"</span>的本质特征。<br><br>
+现在分析选项：<br>
+• <strong>贪心法</strong>：每一步都取局部最优解，不分解问题 ❌<br>
+• <strong>动态规划</strong>：记忆化递推，记录子问题解 ❌<br>
+• <strong>回溯法</strong>：试错搜索，不行就退回 ❌<br>
+• <strong>分治法</strong>：分解→解决→合并，完全符合快排过程 ✅`
+            },
+            {
+                question: "在快速排序中，Partition函数的作用是？",
+                options: ["对数组进行排序", "选择枢轴并将数组分区", "合并两个有序数组", "计算数组元素之和"],
+                answer: 1,
+                explanation: "Partition函数负责选择一个元素作为枢轴，然后将数组划分为两部分：小于枢轴的在左边，大于枢轴的在右边，返回枢轴的最终位置。",
+                hint: `<strong>解题思路：</strong>先理解快速排序的整体流程，再聚焦Partition的作用。<br><br>
+快速排序分<span class="hint-highlight">三步</span>：选枢轴 → 分区 → 递归<br>
+其中<span class="hint-highlight">Partition</span>就是负责"分区"这一步的函数。<br><br>
+Partition的具体工作：<br>
+<span class="hint-step">① 选择枢轴（通常是第一个或最后一个元素）</span>
+<span class="hint-step">② 从左向右扫描，找到大于枢轴的元素</span>
+<span class="hint-step">③ 从右向左扫描，找到小于枢轴的元素</span>
+<span class="hint-step">④ 交换它们的位置</span>
+<span class="hint-step">⑤ 直到左右指针相遇</span>
+<span class="hint-step">⑥ 将枢轴放到最终位置</span>
+<br>
+分区完成后，枢轴左边的数都 ≤ 枢轴，右边的数都 ≥ 枢轴。`
+            },
+            {
+                question: "快速排序的平均时间复杂度是？",
+                options: ["O(n)", "O(n log n)", "O(n²)", "O(log n)"],
+                answer: 1,
+                explanation: "快速排序的平均时间复杂度为O(n log n)。每次分区大约能将数组减半，所以递归深度为log n，每层需要O(n)处理。",
+                hint: `<strong>解题思路：</strong>从递归的角度分析快速排序的复杂度。<br><br>
+假设数组有 n 个元素：<br>
+<span class="hint-step">第一层：需要比较 n 个元素 → O(n)</span>
+<span class="hint-step">第二层：两个分区，每个约 n/2 个元素 → O(n)</span>
+<span class="hint-step">第三层：四个分区，每个约 n/4 个元素 → O(n)</span>
+<span class="hint-step">...</span>
+<span class="hint-step">递归深度：约 log₂n 层</span>
+<br>
+总时间 = <span class="hint-highlight">每层 O(n) × 层数 O(log n)</span> = <span class="hint-highlight">O(n log n)</span><br><br>
+分析选项：<br>
+• O(n)：只遍历一次，如线性查找 ❌<br>
+• O(log n)：二分查找，只适合能不断减半的场景 ❌<br>
+• O(n²)：如冒泡排序，每次只减少1个元素 ❌<br>
+• <strong>O(n log n)</strong>：快排平均情况 ✅`
+            },
+            {
+                question: "快速排序的最坏时间复杂度发生在什么情况下？",
+                options: ["数组完全无序", "数组已有序或近似有序", "所有元素都相同", "数组随机分布"],
+                answer: 1,
+                explanation: "当数组已有序或近似有序时，如果每次都选择第一个或最后一个元素作为枢轴，分区会极度不平衡，导致时间复杂度退化为O(n²)。",
+                hint: `<strong>解题思路：</strong>分析什么情况下递归树会"不平衡"。<br><br>
+快速排序的核心是：<span class="hint-highlight">分区越均匀，效率越高</span>。<br>
+最坏情况 = <span class="hint-highlight">每次分区极度不平衡</span><br><br>
+考虑有序数组 [1, 2, 3, 4, 5, 6, 7, 8]：<br>
+<span class="hint-step">选第一个元素1作为枢轴</span>
+<span class="hint-step">分区后：左边空，右边有7个元素</span>
+<span class="hint-step">递归处理7个元素，又选第一个...</span>
+<br>
+这就是<span class="hint-highlight">"递归树"</span>的样子：<br>
+第1层：处理8个元素<br>
+第2层：处理7个元素<br>
+第3层：处理6个元素<br>
+...<br>
+第8层：处理1个元素<br>
+<br>
+时间复杂度 = 8+7+6+5+4+3+2+1 = <span class="hint-highlight">O(n²)</span><br><br>
+所以：数组有序时效率最差！`
+            },
+            {
+                question: "快速排序的空间复杂度主要是由什么决定的？",
+                options: ["原数组大小", "递归调用栈的深度", "枢轴的数量", "分区的数量"],
+                answer: 1,
+                explanation: "快速排序是原地排序，主要空间开销是递归调用栈。递归深度平均为O(log n)，所以空间复杂度为O(log n)。",
+                hint: `<strong>解题思路：</strong>快速排序是"原地排序"，不需要额外数组。<br><br>
+<span class="hint-highlight">原地排序</span> = 在原数组上进行操作，不需要额外空间存储临时数组。<br><br>
+那么空间用在哪里？→ <span class="hint-highlight">递归调用栈</span><br><br>
+每次递归调用都需要保存一些信息（参数、局部变量、返回地址），这些放在<span class="hint-highlight">栈</span>中。<br><br>
+递归深度分析：<br>
+<span class="hint-step">平均情况：分区均匀，递归深度 ≈ log₂n</span>
+<span class="hint-step">最坏情况：分区极度不平衡，递归深度 = n</span>
+<br>
+所以空间复杂度：<br>
+• 平均：<span class="hint-highlight">O(log n)</span><br>
+• 最坏：<span class="hint-highlight">O(n)</span><br><br>
+注：枢轴暂存用的 r[0] 是常数空间，不影响复杂度。`
+            },
+            {
+                question: "快速排序是不稳定的排序算法，关于「稳定」的说法正确的是？",
+                options: ["算法执行过程稳定不会崩溃", "相同值的元素相对位置会改变", "算法在任何情况下都表现稳定", "排序结果总是正确的"],
+                answer: 1,
+                explanation: "排序算法的稳定性指相同值的元素在排序后相对位置是否保持不变。快速排序在分区过程中可能改变相同值元素的相对位置，所以是不稳定的。",
+                hint: `<strong>解题思路：</strong>先理解什么是「稳定性」。<br><br>
+<span class="hint-highlight">稳定性</span>：排序后，相同关键字元素的相对顺序是否保持不变。<br><br>
+举例：有学生按成绩排序，成绩相同的学生A和B，原来A在B前面，排序后如果A仍在B前面，就是稳定的。<br><br>
+快速排序为什么不稳定？<br>
+<span class="hint-step">分区过程中可能进行跨越性交换</span>
+<span class="hint-step">例如：枢轴和远处元素交换位置</span>
+<span class="hint-step">这会改变相同值元素的相对位置</span>
+<br><br>
+分析选项：<br>
+• 算法不崩溃 ≠ 稳定 ❌<br>
+• <strong>相同值元素相对位置会改变</strong> → 这就是不稳定的含义 ✅<br>
+• 任何情况都稳定 = 稳定算法，快排不符合 ❌<br>
+• 结果正确与否和稳定性无关 ❌`
+            },
+            {
+                question: "在挖坑填坑法中，将枢轴暂存到r[0]后，原来枢轴位置会怎样？",
+                options: ["保持不变", "变成空位", "存放最大值", "存放最小值"],
+                answer: 1,
+                explanation: "挖坑填坑法的核心是'挖坑'。将枢轴暂存后，原位置就变成一个空位（或'坑'），后续元素可以填入这个坑中。",
+                hint: `<strong>解题思路：</strong>理解"挖坑填坑"这个名字的含义。<br><br>
+<span class="hint-highlight">"坑"</span> = 被"挖走"元素后留下的空位<br><br>
+以数组 [5, 3, 8, 1, 9] 为例，选5作为枢轴：<br>
+<span class="hint-step">① 把5暂存到r[0]，现在r[0]=5</span>
+<span class="hint-step">② 位置0现在空了，这就是"坑"</span>
+<span class="hint-step">③ 从右边找小元素，找到1</span>
+<span class="hint-step">④ 把1填到坑里（位置0），位置4变成新坑</span>
+<span class="hint-step">⑤ 从左边找大元素...</span>
+<br>
+所以枢轴被"挖走"后，原位置<span class="hint-highlight">变成空位（坑）</span>，等待被填入元素。<br><br>
+这种方法的好处：不需要额外交换，直接"填坑"即可。`
+            },
+            {
+                question: "快速排序中，当左右指针i和j相遇时，应该？",
+                options: ["停止排序", "将枢轴放到相遇位置", "交换i和j的值", "继续向右移动指针"],
+                answer: 1,
+                explanation: "当i和j相遇时，说明已经找到了枢轴应该放置的位置。此时将暂存的枢轴值放入该位置，枢轴就最终归位了。",
+                hint: `<strong>解题思路：</strong>理解指针相遇的含义和枢轴归位的时机。<br><br>
+快速排序的分区过程：<br>
+<span class="hint-step">左指针i从左向右走，找大于枢轴的元素</span>
+<span class="hint-step">右指针j从右向左走，找小于枢轴的元素</span>
+<span class="hint-step">i和j交换，继续走...</span>
+<br>
+当<span class="hint-highlight">i和j相遇</span>时：<br>
+• 说明已经扫描完整个分区<br>
+• 相遇位置的<span class="hint-highlight">左边都是小元素</span><br>
+• 相遇位置的<span class="hint-highlight">右边都是大元素</span><br>
+• 这就是枢轴应该待的位置！<br><br>
+所以：<span class="hint-highlight">将枢轴放到相遇位置</span>，它就"归位"了！<br>
+<br>
+注意：相遇位置一定是个"坑"（因为元素被移走了），可以直接放进去。`
+            },
+            {
+                question: "以下哪种方法可以有效避免快速排序的最坏情况？",
+                options: ["使用更大的数组", "随机选择枢轴或三数取中", "减少递归深度", "增加比较次数"],
+                answer: 1,
+                explanation: "随机选择枢轴或三数取中（取首、中、尾三个元素的中值）可以让枢轴选择更加合理，避免分区极度不平衡，从而规避最坏情况。",
+                hint: `<strong>解题思路：</strong>最坏情况的根源是：枢轴选择不当导致分区不平衡。<br><br>
+最坏情况示例：有序数组 + 固定选第一个元素 = 分区极度不平衡<br><br>
+解决思路：<span class="hint-highlight">让枢轴选择更"聪明"</span><br><br>
+方法一：<span class="hint-highlight">随机选择枢轴</span><br>
+• 每次随机选一个位置的元素作为枢轴<br>
+• 有序数组也无法"针对"算法<br>
+• 概率上避免最坏情况<br><br>
+方法二：<span class="hint-highlight">三数取中</span><br>
+• 比较首、中、尾三个元素<br>
+• 选择中间大小的作为枢轴<br>
+• 确保枢轴不会是最大或最小<br><br>
+分析选项：<br>
+• 数组大小不影响分区平衡性 ❌<br>
+• 递归深度由分区决定，不需人为减少 ❌<br>
+• 增加比较次数反而降低效率 ❌<br>
+• <strong>随机/三数取中</strong>从根源解决问题 ✅`
+            },
+            {
+                question: "快速排序和归并排序都使用了分治思想，它们的主要区别是？",
+                options: ["快速排序不需要递归", "归并排序需要额外O(n)空间", "快速排序是稳定的", "两者时间复杂度完全不同"],
+                answer: 1,
+                explanation: "快速排序是原地排序（空间O(log n)），归并排序需要额外O(n)空间来合并。另外，快速排序不稳定，归并排序稳定。",
+                hint: `<strong>解题思路：</strong>比较两个"分治"排序算法的核心差异。<br><br>
+两种排序的分治过程：<br>
+<span class="hint-step"><strong>快排</strong>：先分区（处理），再递归左右两部分</span>
+<span class="hint-step"><strong>归并</strong>：先递归左右两部分，再合并</span>
+<br>
+关键区别：<span class="hint-highlight">"分"和"合"的时机不同</span><br><br>
+归并排序的"合"需要：<br>
+• 申请一个大小为n的临时数组<br>
+• 合并两个有序子数组<br>
+• 复制回原数组<br>
+→ 需要<span class="hint-highlight">额外O(n)空间</span><br><br>
+快速排序的"合"：<br>
+• 枢轴归位即完成<br>
+• 不需要合并操作<br>
+→ <span class="hint-highlight">原地排序，空间O(log n)</span><br><br>
+其他区别：<br>
+• 快排不稳定，归并稳定<br>
+• 平均时间复杂度都是O(n log n)<br>
+• 递归顺序相反`
+            },
+            {
+                question: "在快速排序的挖坑填坑过程中，为什么要先从右边开始找小元素？",
+                options: ["代码习惯，没有特殊原因", "确保最终枢轴归位时左边都小、右边都大", "提高代码可读性", "配合左指针移动"],
+                answer: 1,
+                explanation: "从右边先开始找是为了确保当i和j相遇时，相遇位置左边的元素都小于枢轴，右边的元素都大于枢轴，这样枢轴归位后左右分区才正确。",
+                hint: `<strong>解题思路：</strong>用具体例子分析指针移动顺序的影响。<br><br>
+以数组 [3, 5, 1, 7, 9]，选第一个元素3作为枢轴：<br><br>
+<span class="hint-step">如果从<strong>右边</strong>开始找（正确做法）：</span>
+<span class="hint-step">① j先走：找到1 < 3，填到位置0的坑里</span>
+<span class="hint-step">② i后走：找到5 > 3，填到位置3的坑里</span>
+<span class="hint-step">③ 相遇在位置1，放枢轴3</span>
+<span class="hint-step">结果：[3, 1, 5, 7, 9] → 左边[1]，右边[5,7,9] ✓</span>
+<br><br>
+<span class="hint-step">如果从<strong>左边</strong>开始找（错误做法）：</span>
+<span class="hint-step">① i先走：找到5 > 3，填到位置4</span>
+<span class="hint-step">② j后走：找到1 < 3，填到位置0</span>
+<span class="hint-step">③ 相遇在位置2，放枢轴3</span>
+<span class="hint-step">结果：[1, 5, 3, 7, 9] → 5在枢轴左边但5>3 ✗</span>
+<br>
+关键：<span class="hint-highlight">先从右找小，最后相遇点是"坑"，填入枢轴后左边保证都小</span>`
+            },
+            {
+                question: "一趟快速排序完成后，枢轴元素的位置特点是什么？",
+                options: ["位置不确定，可能需要再次排序", "位置固定，已经在最终排序位置", "位置随机", "位置取决于数组大小"],
+                answer: 1,
+                explanation: "快速排序的一个重要特点是：每一趟排序后，枢轴元素都会就位（即该元素最终排序后的位置），之后只需要对左右两部分递归排序。",
+                hint: `<strong>解题思路：</strong>理解快速排序"一边排序一边就位"的特点。<br><br>
+以数组 [4, 2, 8, 5, 1, 7, 3, 6] 为例，选枢轴=5：<br>
+<br>
+分区过程：<br>
+<span class="hint-step">把小于5的放左边：2, 1, 3, 4</span>
+<span class="hint-step">把大于5的放右边：8, 7, 6</span>
+<span class="hint-step">枢轴5归位到位置4</span>
+<br>
+结果：[2, 1, 3, 4, <span class="hint-highlight">5</span>, 8, 7, 6]
+<br><br>
+此时<span class="hint-highlight">5已经确定了它的最终位置</span>！<br>
+• 左边都是 < 5 的数<br>
+• 右边都是 > 5 的数<br>
+• 5 不可能再移动到其他位置<br><br>
+这和<span class="hint-highlight">冒泡排序</span>不同：<br>
+• 冒泡：每次只让一个最大/最小元素归位<br>
+• 快排：一趟分区后，枢轴直接归位<br><br>
+这就是快速排序效率高的原因之一：<span class="hint-highlight">每趟分区都能"锁定"一个元素的位置</span>！`
+            },
+            // ========== 实操题 ==========
+            {
+                question: "请在上方输入数组 [38, 27, 43, 3, 9, 82, 10]，逐步执行快速排序，观察第一轮分区完成后，枢轴元素10最终停在第几个位置？",
+                options: ["第1个（索引0）", "第2个（索引1）", "第3个（索引2）", "第4个（索引3）"],
+                answer: 2,
+                explanation: "以最后一个元素10为枢轴，第一轮分区后数组变为 [3, 9, 10, 27, 43, 82, 38]，枢轴10位于索引2，即第3个位置。左侧[3,9]均≤10，右侧[27,43,82,38]均>10。",
+                hint: `<strong>解题思路：</strong>先在网页输入数组，然后逐步点击"下一步"观察分区过程。<br><br><span class="hint-step">① 输入：38, 27, 43, 3, 9, 82, 10</span><span class="hint-step">② 逐步执行，观察枢轴10的移动</span><span class="hint-step">③ 注意：左侧指针找>10的元素，右侧指针找≤10的元素</span><span class="hint-step">④ 分区完成后，10归位，观察它停在哪个位置</span><br><span class="hint-highlight">关键：枢轴归位后，它左边的数都比它小，右边的数都比它大</span>`
+            },
+            {
+                question: "请在上方输入数组 [5, 1, 7, 3, 6, 2, 4]，执行第一轮分区（枢轴=4），分区完成后枢轴4左边有几个元素？",
+                options: ["0个", "1个", "2个", "3个"],
+                answer: 3,
+                explanation: "以4为枢轴，分区后数组为 [3, 1, 2, 4, 6, 7, 5]，枢轴4位于索引3，左边有3个元素（3, 1, 2），均≤4。",
+                hint: `<strong>解题思路：</strong>在网页中输入数组并逐步执行分区过程。<br><br><span class="hint-step">① 输入：5, 1, 7, 3, 6, 2, 4</span><span class="hint-step">② 枢轴=4（最后一个元素）</span><span class="hint-step">③ 左指针从5开始找>4的元素</span><span class="hint-step">④ 右指针从2开始找≤4的元素</span><span class="hint-step">⑤ 观察交换过程和枢轴最终位置</span><br><span class="hint-highlight">提示：比4小的元素有3个（1, 3, 2），它们都会被分到枢轴左边</span>`
+            },
+            {
+                question: "请在上方输入一个已排序数组 [1, 2, 3, 4, 5, 6, 7]，执行快速排序的第一轮分区，观察分区是否平衡。这种情况下快速排序的效率如何？",
+                options: ["效率最高，分区非常均匀", "效率较低，分区极度不平衡", "效率一般，和随机数组差不多", "无法判断"],
+                answer: 1,
+                explanation: "已排序数组+选最后一个元素为枢轴，每次分区枢轴都是最大值，一侧为空，另一侧有n-1个元素，导致递归深度为n，时间复杂度退化为O(n²)。",
+                hint: `<strong>解题思路：</strong>这是快速排序最坏情况的典型场景。<br><br><span class="hint-step">① 输入已排序数组 1, 2, 3, 4, 5, 6, 7</span><span class="hint-step">② 枢轴=7，分区后左边有6个元素，右边为空</span><span class="hint-step">③ 继续观察：枢轴=6，左边5个元素，右边为空</span><span class="hint-step">④ 每次只减少1个元素，需要n-1轮</span><br><span class="hint-highlight">这就是为什么有序数组是快排的最坏情况！每次分区都极度不平衡，效率退化到O(n²)</span>`
+            },
+            {
+                question: "请在上方分别输入 [4, 1, 3, 2, 6, 5, 7] 和 [1, 2, 3, 4, 5, 6, 7]，对比两者第一轮分区的结果。哪个数组分区更均匀？",
+                options: ["两个一样均匀", "[4,1,3,2,6,5,7] 更均匀", "[1,2,3,4,5,6,7] 更均匀", "无法比较"],
+                answer: 1,
+                explanation: "数组[4,1,3,2,6,5,7]以7为枢轴分区后，左侧6个元素右侧0个，看似不平衡。但如果看更内层的分区，4作为中间值会让子数组分得更均匀。而有序数组每层分区都是0和n-1，最不均匀。",
+                hint: `<strong>解题思路：</strong>对比两种数组的分区情况。<br><br><span class="hint-step">① 先输入 [4,1,3,2,6,5,7]，执行第一轮分区</span><span class="hint-step">② 重置后输入 [1,2,3,4,5,6,7]，执行第一轮分区</span><span class="hint-step">③ 比较两个结果：枢轴归位后，左右两侧各有多少元素？</span><span class="hint-step">④ 分区越均匀（左右元素数越接近），排序效率越高</span><br><span class="hint-highlight">关键：理想情况是枢轴恰好把数组分成两半，这样递归深度最浅</span>`
+            },
+            {
+                question: "快速排序每一趟分区后，枢轴元素的位置有什么特点？请在网页中输入 [8, 3, 6, 1, 9, 4, 7, 2, 5] 并执行完整的快速排序，观察每次枢轴归位后是否还会移动。",
+                options: ["枢轴可能在后续步骤中移动到其他位置", "枢轴归位后位置固定，不再移动", "只有第一个枢轴位置固定", "取决于数组是否有序"],
+                answer: 1,
+                explanation: "快速排序的核心特性：每趟分区后枢轴元素到达最终排序位置，之后不会再移动。因为左边都比它小、右边都比它大，它在整个数组中的相对位置已经确定。",
+                hint: `<strong>解题思路：</strong>在网页中完整执行排序，观察枢轴元素的行为。<br><br><span class="hint-step">① 输入数组 8, 3, 6, 1, 9, 4, 7, 2, 5</span><span class="hint-step">② 执行第一轮分区，观察枢轴归位</span><span class="hint-step">③ 继续执行后续分区，看已归位的枢轴是否还会移动</span><span class="hint-step">④ 注意：左边子数组的操作不会影响已归位枢轴的右边元素</span><br><span class="hint-highlight">每趟分区都会"锁定"一个元素的位置，这是快排高效的原因之一</span>`
+            }
+        ];
+        
+        let quizQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answeredQuestions = [];
+        
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+        
+        function startQuiz() {
+            // 抽题逻辑：保证至少2道实操题 + 3道概念题，第0题（Quickselect）永远放第一个
+            const alwaysFirstIndex = 0; // Quickselect题，isAlwaysFirst标记
+            const practicalIndices = [13, 14, 15, 16, 17]; // 实操题索引（因新增第0题，索引+1）
+            const conceptIndices = Array.from({length: 12}, (_, i) => i + 1); // 概念题索引1-12
+            
+            // 随机抽2道实操题
+            const shuffledPractical = shuffleArray(practicalIndices);
+            const selectedPractical = shuffledPractical.slice(0, 2);
+            
+            // 随机抽3道概念题
+            const shuffledConcept = shuffleArray(conceptIndices);
+            const selectedConcept = shuffledConcept.slice(0, 3);
+            
+            // 合并并打乱（不包含第0题）
+            const selectedIndices = [...selectedPractical, ...selectedConcept];
+            let remainingQuestions = selectedIndices.map(i => questionBank[i]);
+            remainingQuestions = shuffleArray(remainingQuestions);
+            
+            // Quickselect题永远第一个
+            quizQuestions = [questionBank[alwaysFirstIndex], ...remainingQuestions];
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            answeredQuestions = [];
+            
+            document.getElementById('quizProgressContainer').style.display = 'block';
+            document.getElementById('quizStartArea').style.display = 'none';
+            
+            updateQuizProgress();
+            showQuestion();
+        }
+        
+        function showQuestion() {
+            const container = document.getElementById('quizContainer');
+            const question = quizQuestions[currentQuestionIndex];
+            const letters = ['A', 'B', 'C', 'D'];
+            const isQuickselectQuestion = question.isAlwaysFirst === true;
+            
+            // AI观察功能区域（仅Quickselect题目显示）
+            const aiObserveSection = isQuickselectQuestion ? `
+                <div class="ai-observe-container" id="aiObserveContainer">
+                    <div class="ai-observe-header">
+                        <button class="ai-observe-btn" id="aiObserveBtn" onclick="playAIObserve()">
+                            🤖 AI观察
+                        </button>
+                        <button class="ai-mute-btn" id="aiMuteBtn" onclick="toggleAISound()" title="切换语音">🔊</button>
+                    </div>
+                    <div class="ai-chat-bubbles" id="aiChatBubbles"></div>
+                </div>
+            ` : '';
+            
+            container.innerHTML = `
+                <div class="quiz-question-card">
+                    <div class="question-header">
+                        <div class="question-number">${currentQuestionIndex + 1}</div>
+                        <div class="question-text">${question.question}</div>
+                    </div>
+                    <div class="quiz-options">
+                        ${question.options.map((opt, idx) => `
+                            <div class="quiz-option" onclick="selectAnswer(${idx})">
+                                <div class="option-letter">${letters[idx]}</div>
+                                <div class="option-text">${opt}</div>
+                                <div class="option-result"></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${aiObserveSection}
+                </div>
+            `;
+        }
+        
+        function selectAnswer(selectedIndex) {
+            const question = quizQuestions[currentQuestionIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            // 禁用所有选项
+            options.forEach(opt => opt.classList.add('disabled'));
+            
+            const isCorrect = selectedIndex === question.answer;
+            answeredQuestions.push({
+                selected: selectedIndex,
+                correct: question.answer,
+                isCorrect: isCorrect
+            });
+            
+            if (isCorrect) {
+                score++;
+                options[selectedIndex].classList.add('correct');
+                options[selectedIndex].querySelector('.option-result').textContent = '✅';
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[selectedIndex].querySelector('.option-result').textContent = '❌';
+                // 高亮正确答案
+                options[question.answer].classList.add('highlight-correct');
+                options[question.answer].querySelector('.option-result').textContent = '✅';
+            }
+            
+            // 显示解析
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'quiz-explanation';
+            explanationDiv.innerHTML = `
+                <div class="explanation-title">
+                    💡 解析
+                </div>
+                <div class="explanation-text">${question.explanation}</div>
+            `;
+            document.querySelector('.quiz-question-card').appendChild(explanationDiv);
+            
+            // 显示解题思路区域（答错时默认展开，答对时可点击展开）
+            if (question.hint) {
+                const hintDiv = document.createElement('div');
+                const isHintDefaultOpen = !isCorrect;
+                hintDiv.className = `quiz-hint ${isHintDefaultOpen ? 'default-open' : ''}`;
+                hintDiv.innerHTML = `
+                    <div class="hint-header" onclick="toggleHint(this)">
+                        <div class="hint-title">
+                            💡 解题思路
+                            ${isCorrect ? '<span style="font-weight: normal; font-size: 12px; color: #888;">（点击展开）</span>' : ''}
+                        </div>
+                        <div class="hint-toggle ${isHintDefaultOpen ? '' : 'collapsed'}">▼</div>
+                    </div>
+                    <div class="hint-content ${isHintDefaultOpen ? '' : 'hidden'}">${question.hint}</div>
+                `;
+                document.querySelector('.quiz-question-card').appendChild(hintDiv);
+            }
+            
+            // 更新得分显示
+            document.getElementById('quizScoreDisplay').textContent = `得分: ${score}`;
+            
+            // 显示导航按钮（替换自动跳转）
+            const navButtons = document.createElement('div');
+            navButtons.className = 'quiz-nav-buttons';
+            const isLastQuestion = currentQuestionIndex >= quizQuestions.length - 1;
+            navButtons.innerHTML = `
+                <button class="quiz-nav-btn ${isLastQuestion ? 'quiz-nav-btn-result' : 'quiz-nav-btn-next'}" onclick="goToNextQuestion()">
+                    ${isLastQuestion ? '🎯 查看结果' : '下一题 →'}
+                </button>
+            `;
+            document.querySelector('.quiz-question-card').appendChild(navButtons);
+        }
+        
+        // 切换解题思路显示/隐藏
+        function toggleHint(headerElement) {
+            const hintDiv = headerElement.closest('.quiz-hint');
+            const content = hintDiv.querySelector('.hint-content');
+            const toggle = hintDiv.querySelector('.hint-toggle');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                toggle.classList.remove('collapsed');
+            } else {
+                content.classList.add('hidden');
+                toggle.classList.add('collapsed');
+            }
+        }
+        
+        // 跳转到下一题或显示结果
+        function goToNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                updateQuizProgress();
+                showQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+        
+        function updateQuizProgress() {
+            const progress = (currentQuestionIndex / quizQuestions.length) * 100;
+            document.getElementById('quizProgressFill').style.width = `${progress}%`;
+            document.getElementById('quizProgressText').textContent = `第 ${currentQuestionIndex + 1} / ${quizQuestions.length} 题`;
+        }
+        
+        function showQuizResult() {
+            const container = document.getElementById('quizContainer');
+            const percentage = (score / quizQuestions.length) * 100;
+            
+            let resultIcon, resultClass, resultMessage;
+            if (percentage === 100) {
+                resultIcon = '🏆';
+                resultClass = 'perfect';
+                resultMessage = '太棒了！满分通过，继续保持！';
+            } else if (percentage >= 80) {
+                resultIcon = '🎉';
+                resultClass = 'good';
+                resultMessage = '很不错！距离满分只差一点点了！';
+            } else if (percentage >= 60) {
+                resultIcon = '👍';
+                resultClass = 'pass';
+                resultMessage = '及格了！建议回顾一下错题哦~';
+            } else {
+                resultIcon = '📚';
+                resultClass = 'fail';
+                resultMessage = '加油！建议重新学习一下相关内容~';
+            }
+            
+            document.getElementById('quizProgressFill').style.width = '100%';
+            document.getElementById('quizProgressText').textContent = '测验完成';
+            
+            container.innerHTML = `
+                <div class="quiz-result">
+                    <div class="result-icon">${resultIcon}</div>
+                    <div class="result-score ${resultClass}">${score} / ${quizQuestions.length}</div>
+                    <div class="result-message">${resultMessage}</div>
+                    <div class="quiz-result-actions">
+                        <button class="quiz-btn quiz-btn-primary" onclick="startQuiz()">
+                            🔄 再来一次
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 初始化测验开始界面（直接执行，不依赖DOMContentLoaded）
+        (function() {
+            var placeholder = document.getElementById('quizPlaceholder');
+            var startArea = document.getElementById('quizStartArea');
+            if (placeholder) placeholder.style.display = 'none';
+            if (startArea) startArea.style.display = 'block';
+        })();
+        
+        // ========== AI观察功能 ==========
+        let aiObserveActive = false; // 标记是否正在播放AI观察
+        let aiSoundMuted = false; // 标记是否静音
+        let aiScrollLocked = false; // 标记是否锁定滚动
+        let aiScrollPosition = 0; // 记录滚动位置
+        
+        // AI观察的预设内容（正确版本）
+        const aiObserveContent = {
+            ai: '根据分区过程观察，第一轮以49为枢轴分区后，枢轴49落位到下标4，左边有3个元素都小于49。这意味着49就是第4小的元素——一轮分区就找到了答案！'
+        };
+        
+        // 语音朗读函数
+        function speak(text) {
+            return new Promise(function(resolve) {
+                if (!window.speechSynthesis || aiSoundMuted) {
+                    resolve();
+                    return;
+                }
+                // 取消之前的朗读
+                speechSynthesis.cancel();
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.9;
+                utterance.onend = resolve;
+                utterance.onerror = resolve;
+                speechSynthesis.speak(utterance);
+            });
+        }
+        
+        // 切换静音状态
+        function toggleAISound() {
+            aiSoundMuted = !aiSoundMuted;
+            var muteBtn = document.getElementById('aiMuteBtn');
+            if (muteBtn) {
+                muteBtn.textContent = aiSoundMuted ? '🔇' : '🔊';
+                muteBtn.className = aiSoundMuted ? 'ai-mute-btn muted' : 'ai-mute-btn';
+            }
+            // 如果正在朗读，取消
+            if (aiSoundMuted && window.speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+        }
+        
+        // 锁定页面滚动
+        function lockPageScroll() {
+            if (aiScrollLocked) return;
+            aiScrollLocked = true;
+            aiScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            document.body.style.position = 'fixed';
+            document.body.style.top = '-' + aiScrollPosition + 'px';
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 恢复页面滚动
+        function unlockPageScroll() {
+            if (!aiScrollLocked) return;
+            aiScrollLocked = false;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            window.scrollTo(0, aiScrollPosition);
+        }
+        
+        // 播放AI观察
+        function playAIObserve() {
+            var btn = document.getElementById('aiObserveBtn');
+            var bubblesContainer = document.getElementById('aiChatBubbles');
+            
+            if (!btn || !bubblesContainer) return;
+            
+            // 禁用按钮
+            btn.disabled = true;
+            aiObserveActive = true;
+            
+            // 锁定页面滚动
+            lockPageScroll();
+            
+            // 清空之前的气泡
+            bubblesContainer.innerHTML = '';
+            // 重置滚动位置
+            bubblesContainer.scrollTop = 0;
+            
+            // 创建AI气泡
+            var aiBubble = document.createElement('div');
+            aiBubble.className = 'chat-message ai';
+            aiBubble.innerHTML = '<div class="chat-avatar">🤖</div><div class="chat-bubble" id="aiBubbleContent"><span class="typing-cursor"></span></div>';
+            bubblesContainer.appendChild(aiBubble);
+            
+            var aiContentEl = document.getElementById('aiBubbleContent');
+            
+            // 打字机效果显示AI内容
+            typeWriter(aiContentEl, aiObserveContent.ai, function() {
+                // AI内容显示完毕后，朗读AI内容
+                speak(aiObserveContent.ai).then(function() {
+                    // 朗读完毕后，解锁滚动并将按钮改为"重新播放"
+                    unlockPageScroll();
+                    btn.textContent = '🔄 重新播放';
+                    btn.className = 'ai-observe-btn reset-btn';
+                    btn.disabled = false;
+                    btn.onclick = resetAIObserve;
+                    aiObserveActive = false;
+                });
+            });
+        }
+        
+        // 打字机效果
+        function typeWriter(element, text, callback) {
+            let index = 0;
+            const speed = 40; // 每字40ms
+            
+            function type() {
+                if (index < text.length) {
+                    // 移除光标，添加新字符，再添加光标
+                    element.innerHTML = text.substring(0, index + 1) + '<span class="typing-cursor"></span>';
+                    index++;
+                    setTimeout(type, speed);
+                } else {
+                    // 完成时移除光标
+                    element.innerHTML = text;
+                    if (callback) callback();
+                }
+            }
+            
+            type();
+        }
+        
+        // 重置AI观察
+        function resetAIObserve() {
+            // 取消正在进行的语音
+            if (window.speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+            // 解锁页面滚动
+            unlockPageScroll();
+            
+            const btn = document.getElementById('aiObserveBtn');
+            const bubblesContainer = document.getElementById('aiChatBubbles');
+            
+            if (btn) {
+                btn.textContent = '🤖 AI观察';
+                btn.className = 'ai-observe-btn';
+                btn.disabled = false;
+                btn.onclick = playAIObserve;
+            }
+            
+            if (bubblesContainer) {
+                bubblesContainer.innerHTML = '';
+            }
+            
+            aiObserveActive = false;
+        }
     </script>
 </body>
 </html>
